@@ -121,4 +121,9 @@ public class Controllor
         return false;
         
     }
+    
+    /*public String[] readproductlist(String a)
+    {
+        
+    }*/
 }

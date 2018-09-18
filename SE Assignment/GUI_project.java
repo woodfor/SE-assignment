@@ -37,6 +37,15 @@ public class GUI_project extends JFrame {
     private JButton User_OK;
     private Controllor ctrl;
     private JPanel panel1;
+    private JPanel panel_create;
+    private JCheckBox M_D_Checkbox;
+    private JTextField m_c_pn;
+    private JTextField m_c_pq;
+    private JTextField m_c_mdate;
+    private JTextField m_c_expdate;
+    private JList m_e_list;
+    private JPanel panel_Edit;
+
     //Constructor 
     public GUI_project(){
         ctrl = new Controllor();
@@ -162,43 +171,6 @@ public class GUI_project extends JFrame {
         Owner_reg.setText("Owner");
         Owner_reg.setVisible(true);
 
-        Back = new JButton();
-        Back.setBounds(224,72,90,35);
-        Back.setBackground(new Color(214,217,223));
-        Back.setForeground(new Color(0,0,0));
-        Back.setEnabled(true);
-        Back.setFont(new Font("sansserif",0,12));
-        Back.setText("Back");
-        Back.setVisible(true);
-        Back.addMouseListener(new MouseAdapter() {
-                public void mouseClicked(MouseEvent evt) {
-                    Back_reg_click(evt);
-                }
-            });
-        //Set methods for mouse events
-        //Call defined methods
-        Owner_reg.addMouseListener(new MouseAdapter() {
-                public void mouseClicked(MouseEvent evt) {
-                    Owner_reg_click(evt);
-                }
-            });
-
-        User_reg = new JButton();
-        User_reg.setBounds(118,72,90,35);
-        User_reg.setBackground(new Color(214,217,223));
-        User_reg.setForeground(new Color(0,0,0));
-        User_reg.setEnabled(true);
-        User_reg.setFont(new Font("sansserif",0,12));
-        User_reg.setText("User");
-        User_reg.setVisible(true);
-        //Set methods for mouse events
-        //Call defined methods
-        User_reg.addMouseListener(new MouseAdapter() {
-                public void mouseClicked(MouseEvent evt) {
-                    User_reg_click(evt);
-                }
-            });
-
         Owner_Back = new JButton();
         Owner_Back.setBounds(179,134,90,35);
         Owner_Back.setBackground(new Color(214,217,223));
@@ -210,22 +182,6 @@ public class GUI_project extends JFrame {
         Owner_Back.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent evt) {
                     Owner_Back(evt);
-                }
-            });
-
-        Owner_OK = new JButton();
-        Owner_OK.setBounds(58,134,90,35);
-        Owner_OK.setBackground(new Color(214,217,223));
-        Owner_OK.setForeground(new Color(0,0,0));
-        Owner_OK.setEnabled(true);
-        Owner_OK.setFont(new Font("sansserif",0,12));
-        Owner_OK.setText("OK");
-        Owner_OK.setVisible(true);
-        //Set methods for mouse events
-        //Call defined methods
-        Owner_OK.addMouseListener(new MouseAdapter() {
-                public void mouseClicked(MouseEvent evt) {
-                    Owner_ok(evt);
                 }
             });
 
@@ -296,6 +252,9 @@ public class GUI_project extends JFrame {
         this.setLocationRelativeTo(null);
         this.pack();
         this.setVisible(true);
+
+        owner_manage_interface();
+        create_face();
     }
 
     //Method mouseClicked for Exit
@@ -321,8 +280,9 @@ public class GUI_project extends JFrame {
             {
                 JOptionPane.showMessageDialog(this,  "Welcome login in", "Owner Admin",
                     JOptionPane.INFORMATION_MESSAGE);
-                Panel_login.setVisible(false);               
-                owner_manage_interface();
+                Panel_login.setVisible(false); 
+                panel1.setVisible(true);
+                //owner_manage_interface();
 
             }
             else
@@ -330,6 +290,7 @@ public class GUI_project extends JFrame {
             {
                 JOptionPane.showMessageDialog(this, Account_input.getText().trim() + " Welcome login in", "Hello",
                     JOptionPane.INFORMATION_MESSAGE);
+
             }
             else
             {
@@ -339,17 +300,97 @@ public class GUI_project extends JFrame {
         }
     }
 
+    //Method mouseClicked for Register
+    private void Register_button (MouseEvent evt) {
+        Panel_login.removeAll();
+        Panel_login.repaint();
+        label_own_reg.setText("User Register");
+        Panel_login.add(Owner_Back);
+        Panel_login.add(User_OK);
+        Panel_login.add(Owner_Pass);
+        Panel_login.add(Owner_account);
+        Panel_login.add(Owner_label1);
+        Panel_login.add(Owner_label2);
+        Panel_login.add(label_own_reg);
+        Panel_login.repaint();
+    }
+
+    private void User_ok (MouseEvent evt)
+    {
+        String a = Owner_account.getText().trim();
+        String b = Owner_Pass.getText().trim();
+
+        if (a.isEmpty()||b.isEmpty())    
+        {
+            due("Input something");
+            this.Owner_account.requestFocus();//获取焦点          
+        }
+        else
+        {
+            if (a.charAt(0) == '-' || a.charAt(a.length()-1) == '-' || a.length() > 15 || a.length() < 2)
+            { due("No '-' in head and tail and 2 <= length < 15 characters");
+
+                this.Owner_account.requestFocus();
+            }
+            else
+            {
+                if(b.length() > 15)
+                {
+                    due("Password length < 15");
+                }
+                else
+                {
+                    if(ctrl.customerlist(a+"/"+b))
+                    {
+                        JOptionPane.showMessageDialog(this, "User account registered", "Congratulation",
+                            JOptionPane.INFORMATION_MESSAGE);
+                        login_pannel();
+                    }
+                    else
+                    {
+                        due("Account been taken");
+                    }
+
+                }
+            }
+        }
+    }
+
+    private void due(String a)
+    {
+        JOptionPane.showMessageDialog(this, a, "Warning",
+            JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private void Owner_Back (MouseEvent evt) {
+        login_pannel();
+    }
+
+    private void login_pannel()
+    {   
+        Panel_login.removeAll();
+        Panel_login.repaint();
+        Panel_login.add(Account_input);
+        Panel_login.add(Exit);
+        Panel_login.add(Login);       
+        Panel_login.add(Register);
+        Panel_login.add(label_Acc);
+        Panel_login.add(label_Password);
+        Panel_login.add(passwordfield_main);
+        Panel_login.repaint();
+    }
+
     private void owner_manage_interface()
     {
-        JMenuBar menuBar;
+
         JButton button1;
         JButton button2;
         JButton button3;
         JButton button4;
         JLabel label1;
-        
-        this.setTitle("GUI_project");
-        this.setSize(500,400);
+
+        //this.setTitle("Manage");
+        //this.setSize(500,400);
         //menu generate method
         //generateMenu();
         //this.setJMenuBar(menuBar);
@@ -416,10 +457,10 @@ public class GUI_project extends JFrame {
         button4.setText("Log out");
         button4.setVisible(true);
         button4.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent evt) {
-                loginout(evt);
-            }
-        });
+                public void mouseClicked(MouseEvent evt) {
+                    loginout(evt);
+                }
+            });
 
         label1 = new JLabel();
         label1.setBounds(13,18,90,35);
@@ -437,7 +478,7 @@ public class GUI_project extends JFrame {
         panel1.setForeground(new Color(0,0,0));
         panel1.setEnabled(true);
         panel1.setFont(new Font("sansserif",0,12));
-        panel1.setVisible(true);
+        panel1.setVisible(false);
 
         //adding components to contentPane panel
         panel1.add(button1);
@@ -449,6 +490,188 @@ public class GUI_project extends JFrame {
 
         //adding panel to JFrame and seting of window position and close operation
         this.add(contentPane);
+        //this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // this.setLocationRelativeTo(null);
+        // this.pack();
+        //this.setVisible(true);
+
+    }
+
+    public void loginout(MouseEvent evt)
+    {
+        panel1.setVisible(false);
+        Panel_login.setVisible(true);
+    }
+
+    public void Create(MouseEvent evt)
+    {
+        panel1.setVisible(false);
+        panel_create.setVisible(true);
+    }
+
+    private void create_face()
+    {
+        JButton button1;
+        JButton button2;
+        JLabel label1;
+        JLabel label2;
+        JLabel label3;
+        JLabel label4;
+        JLabel label5;
+
+        this.setTitle("GUI_project");
+        this.setSize(500,400);
+        JPanel contentPane = new JPanel(null);
+        contentPane.setPreferredSize(new Dimension(500,400));
+        contentPane.setBackground(new Color(192,192,192));
+
+        button1 = new JButton();
+        button1.setBounds(62,298,90,35);
+        button1.setBackground(new Color(214,217,223));
+        button1.setForeground(new Color(0,0,0));
+        button1.setEnabled(true);
+        button1.setFont(new Font("sansserif",0,12));
+        button1.setText("Confirm");
+        button1.setVisible(true);
+        //Set methods for mouse events
+        //Call defined methods
+        button1.addMouseListener(new MouseAdapter() {
+                public void mouseClicked(MouseEvent evt) {
+                    Confirm_product_info(evt);
+                }
+            });
+
+        button2 = new JButton();
+        button2.setBounds(185,298,90,35);
+        button2.setBackground(new Color(214,217,223));
+        button2.setForeground(new Color(0,0,0));
+        button2.setEnabled(true);
+        button2.setFont(new Font("sansserif",0,12));
+        button2.setText("Back");
+        button2.setVisible(true);
+        //Set methods for mouse events
+        //Call defined methods
+        button2.addMouseListener(new MouseAdapter() {
+                public void mouseClicked(MouseEvent evt) {
+                    Back_to_manage(evt);
+                }
+            });
+
+        M_D_Checkbox = new JCheckBox();
+        M_D_Checkbox.setBounds(213,238,90,35);
+        M_D_Checkbox.setBackground(new Color(214,217,223));
+        M_D_Checkbox.setForeground(new Color(0,0,0));
+        M_D_Checkbox.setEnabled(true);
+        M_D_Checkbox.setFont(new Font("sansserif",0,12));
+        M_D_Checkbox.setText("");
+        M_D_Checkbox.setVisible(true);
+
+        label1 = new JLabel();
+        label1.setBounds(48,30,90,35);
+        label1.setBackground(new Color(214,217,223));
+        label1.setForeground(new Color(0,0,0));
+        label1.setEnabled(true);
+        label1.setFont(new Font("sansserif",0,12));
+        label1.setText("Product Name:");
+        label1.setVisible(true);
+
+        label2 = new JLabel();
+        label2.setBounds(48,80,111,32);
+        label2.setBackground(new Color(214,217,223));
+        label2.setForeground(new Color(0,0,0));
+        label2.setEnabled(true);
+        label2.setFont(new Font("sansserif",0,12));
+        label2.setText("Product Quantity:");
+        label2.setVisible(true);
+
+        label3 = new JLabel();
+        label3.setBounds(48,180,92,38);
+        label3.setBackground(new Color(214,217,223));
+        label3.setForeground(new Color(0,0,0));
+        label3.setEnabled(true);
+        label3.setFont(new Font("sansserif",0,12));
+        label3.setText("Exp. Date:");
+        label3.setVisible(true);
+
+        label4 = new JLabel();
+        label4.setBounds(48,130,90,35);
+        label4.setBackground(new Color(214,217,223));
+        label4.setForeground(new Color(0,0,0));
+        label4.setEnabled(true);
+        label4.setFont(new Font("sansserif",0,12));
+        label4.setText("Mfg.Date:");
+        label4.setVisible(true);
+
+        label5 = new JLabel();
+        label5.setBounds(48,240,108,31);
+        label5.setBackground(new Color(214,217,223));
+        label5.setForeground(new Color(0,0,0));
+        label5.setEnabled(true);
+        label5.setFont(new Font("sansserif",0,12));
+        label5.setText("Donate to Charity");
+        label5.setVisible(true);
+
+        panel_create = new JPanel(null);
+        panel_create.setBorder(BorderFactory.createEtchedBorder(1));
+        panel_create.setBounds(85,26,349,356);
+        panel_create.setBackground(new Color(214,217,223));
+        panel_create.setForeground(new Color(0,0,0));
+        panel_create.setEnabled(true);
+        panel_create.setFont(new Font("sansserif",0,12));
+        panel_create.setVisible(false);
+
+        m_c_pn = new JTextField();
+        m_c_pn.setBounds(180,30,104,34);
+        m_c_pn.setBackground(new Color(255,255,255));
+        m_c_pn.setForeground(new Color(0,0,0));
+        m_c_pn.setEnabled(true);
+        m_c_pn.setFont(new Font("sansserif",0,12));
+        m_c_pn.setText("");
+        m_c_pn.setVisible(true);
+
+        m_c_pq = new JTextField();
+        m_c_pq.setBounds(180,80,104,34);
+        m_c_pq.setBackground(new Color(255,255,255));
+        m_c_pq.setForeground(new Color(0,0,0));
+        m_c_pq.setEnabled(true);
+        m_c_pq.setFont(new Font("SansSerif",0,12));
+        m_c_pq.setText("E.g: 12 KG");
+        m_c_pq.setVisible(true);
+
+        m_c_mdate = new JTextField();
+        m_c_mdate.setBounds(180,180,104,34);
+        m_c_mdate.setBackground(new Color(255,255,255));
+        m_c_mdate.setForeground(new Color(0,0,0));
+        m_c_mdate.setEnabled(true);
+        m_c_mdate.setFont(new Font("sansserif",0,12));
+        m_c_mdate.setText("E.g: 01-08-2019");
+        m_c_mdate.setVisible(true);
+
+        m_c_expdate = new JTextField();
+        m_c_expdate.setBounds(180,130,104,34);
+        m_c_expdate.setBackground(new Color(255,255,255));
+        m_c_expdate.setForeground(new Color(0,0,0));
+        m_c_expdate.setEnabled(true);
+        m_c_expdate.setFont(new Font("sansserif",0,12));
+        m_c_expdate.setText("E.g: 01-08-2018");
+        m_c_expdate.setVisible(true);
+
+        //adding components to contentPane panel
+        panel_create.add(button1);
+        panel_create.add(button2);
+        panel_create.add(M_D_Checkbox);
+        panel_create.add(label1);
+        panel_create.add(label2);
+        panel_create.add(label3);
+        panel_create.add(label4);
+        panel_create.add(label5);
+        panel_create.add(m_c_pn);
+        panel_create.add(m_c_pq);
+        panel_create.add(m_c_mdate);
+        panel_create.add(m_c_expdate);
+        contentPane.add(panel_create);
+
+        this.add(contentPane);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.pack();
@@ -456,22 +679,78 @@ public class GUI_project extends JFrame {
 
     }
 
-    public void loginout(MouseEvent evt)
-    {
-       panel1.setVisible(false);
-        Panel_login.setVisible(true);
+    private void Confirm_product_info (MouseEvent evt) {
+        //TODO
     }
-    
-    public void Create(MouseEvent evt)
-    {
 
-        due("Hello");
+    private void Back_to_manage (MouseEvent evt) 
+    {
+        panel_create.setVisible(false);
+        panel1.setVisible(true);
     }
 
     public void Edit(MouseEvent evt)
     {
+        JLabel label6;
+        JTextField textfield6;
+        this.setTitle("edit");
+        this.setSize(609,662);
+        label6 = new JLabel();
+        JPanel contentPane = new JPanel(null);
+        contentPane.setPreferredSize(new Dimension(609,662));
+        contentPane.setBackground(new Color(192,192,192));
+        label6.setBounds(130,85,90,35);
+        label6.setBackground(new Color(214,217,223));
+        label6.setForeground(new Color(0,0,0));
+        label6.setEnabled(true);
+        label6.setFont(new Font("sansserif",0,12));
+        label6.setText("Search:");
+        label6.setVisible(true);
 
-        due("Hello");
+        m_e_list = new JList();
+        m_e_list.setBounds(47,156,461,164);
+        m_e_list.setBackground(new Color(255,255,255));
+        m_e_list.setForeground(new Color(0,0,0));
+        m_e_list.setEnabled(true);
+        m_e_list.setFont(new Font("sansserif",0,12));
+        m_e_list.setVisible(true);
+        JScrollPane scrollPane = new JScrollPane(m_e_list);
+
+        panel_Edit = new JPanel(null);
+        panel_Edit.setBorder(BorderFactory.createEtchedBorder(1));
+        panel_Edit.setBounds(28,129,550,391);
+        panel_Edit.setBackground(new Color(214,217,223));
+        panel_Edit.setForeground(new Color(0,0,0));
+        panel_Edit.setEnabled(true);
+        panel_Edit.setFont(new Font("sansserif",0,12));
+        panel_Edit.setVisible(true);
+
+        textfield6 = new JTextField();
+        textfield6.setBounds(255,85,160,37);
+        textfield6.setBackground(new Color(255,255,255));
+        textfield6.setForeground(new Color(0,0,0));
+        textfield6.setEnabled(true);
+        textfield6.setFont(new Font("sansserif",0,12));
+        textfield6.setText("");
+        textfield6.setVisible(true);
+        textfield6.addKeyListener(new KeyAdapter() {
+                public void keyTyped(KeyEvent evt){
+
+                }
+            });
+
+        //adding components to contentPane panel
+        panel_Edit.add(label6);
+        panel_Edit.add(m_e_list);
+        contentPane.add(panel_Edit);
+        panel_Edit.add(textfield6);
+
+        //adding panel to JFrame and seting of window position and close operation
+        this.add(contentPane);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setLocationRelativeTo(null);
+        this.pack();
+        this.setVisible(true);
     }
 
     public void Remove(MouseEvent evt)
@@ -480,182 +759,6 @@ public class GUI_project extends JFrame {
         due("Hello");
     }
 
-    //Method mouseClicked for Register
-    private void Register_button (MouseEvent evt) {
-        Panel_login.removeAll();
-        Panel_login.repaint();
-        label_own_reg.setText("User Register");
-        Panel_login.add(Owner_Back);
-        Panel_login.add(User_OK);
-        Panel_login.add(Owner_Pass);
-        Panel_login.add(Owner_account);
-        Panel_login.add(Owner_label1);
-        Panel_login.add(Owner_label2);
-        Panel_login.add(label_own_reg);
-        Panel_login.repaint();
-    }
-
-    private void Owner_reg_click (MouseEvent evt) {
-        Panel_login.removeAll();
-        Panel_login.repaint();
-
-        label_own_reg.setText("User Register");
-        Panel_login.add(Owner_Back);
-        Panel_login.add(User_OK);
-        Panel_login.add(Owner_Pass);
-        Panel_login.add(Owner_account);
-        Panel_login.add(Owner_label1);
-        Panel_login.add(Owner_label2);
-        Panel_login.add(label_own_reg);
-    }
-
-    private void User_ok (MouseEvent evt)
-    {
-        String a = Owner_account.getText().trim();
-        String b = Owner_Pass.getText().trim();
-
-        if (a.isEmpty()||b.isEmpty())    
-        {
-            due("Input something");
-            this.Owner_account.requestFocus();//获取焦点          
-        }
-        else
-        {
-            if (a.charAt(0) == '-' || a.charAt(a.length()-1) == '-' || a.length() > 15 || a.length() < 2)
-            { due("No '-' in head and tail and 2 <= length < 15 characters");
-
-                this.Owner_account.requestFocus();
-            }
-            else
-            {
-                if(b.length() > 15)
-                {
-                    due("Password length < 15");
-                }
-                else
-                {
-                    if(ctrl.customerlist(a+"/"+b))
-                    {
-                        JOptionPane.showMessageDialog(this, "User account registered", "Congratulation",
-                            JOptionPane.INFORMATION_MESSAGE);
-                            login_pannel();
-                    }
-                    else
-                    {
-                        due("Account been taken");
-                    }
-
-                }
-            }
-        }
-    }
-
-    //Method mouseClicked for Owner_OK
-    private void Owner_ok (MouseEvent evt) 
-    {
-        String a = Owner_account.getText().trim();
-        String b = Owner_Pass.getText().trim();
-
-        if (a.isEmpty()||b.isEmpty())    
-        {
-            due("Input something");
-            this.Owner_account.requestFocus();//获取焦点          
-        }
-        else
-        {
-            if (a.charAt(0) == '-' || a.charAt(a.length()-1) == '-' || a.length() > 15 || a.length() < 2)
-            { due("No '-' in head and tail and 2 <= length < 15 characters");
-
-                this.Owner_account.requestFocus();
-            }
-            else
-            {
-                if(b.length() > 15)
-                {
-                    due("Password length < 15");
-                }
-                else
-                {
-                    if(ctrl.ownerlist(a+"/"+b))
-                    {
-                        JOptionPane.showMessageDialog(this, "Owner account registered", "Congratulation",
-                            JOptionPane.INFORMATION_MESSAGE);
-                    }
-                    else
-                    {
-                        due("Account been taken");
-                    }
-
-                    //记得清空
-                }
-            }
-        }
-
-        //TODO
-    }
-
-    private void due(String a)
-    {
-        JOptionPane.showMessageDialog(this, a, "Warning",
-            JOptionPane.INFORMATION_MESSAGE);
-    }
-
-    private void Owner_Back (MouseEvent evt) {
-        Panel_login.removeAll();
-        Panel_login.repaint();
-        Panel_login.add(Account_input);
-        Panel_login.add(Exit);
-        Panel_login.add(Login);       
-        Panel_login.add(Register);
-        Panel_login.add(label_Acc);
-        Panel_login.add(label_Password);
-        Panel_login.add(passwordfield_main);
-        Panel_login.repaint();
-    }
-    
-    private void login_pannel()
-    {   Panel_login.removeAll();
-        Panel_login.repaint();
-        Panel_login.add(Account_input);
-        Panel_login.add(Exit);
-        Panel_login.add(Login);       
-        Panel_login.add(Register);
-        Panel_login.add(label_Acc);
-        Panel_login.add(label_Password);
-        Panel_login.add(passwordfield_main);
-        Panel_login.repaint();
-    }
-
-    private void User_reg_click (MouseEvent evt) {
-        Panel_login.removeAll();
-        Panel_login.repaint();
-
-        label_own_reg.setText("User Register");
-        Panel_login.add(Owner_Back);
-        Panel_login.add(User_OK);
-        Panel_login.add(Owner_Pass);
-        Panel_login.add(Owner_account);
-        Panel_login.add(Owner_label1);
-        Panel_login.add(Owner_label2);
-        Panel_login.add(label_own_reg);
-    }
-
-    //Method mouseClicked for Back
-    private void Back_reg_click (MouseEvent evt) {
-        Panel_login.removeAll();
-        Panel_login.repaint();
-        Panel_login.add(Account_input);
-        Panel_login.add(Exit);
-        Panel_login.add(Login);       
-        Panel_login.add(Register);
-        Panel_login.add(label_Acc);
-        Panel_login.add(label_Password);
-        Panel_login.add(passwordfield_main);
-        Panel_login.repaint();
-
-    }
-
-    //method for generate menu
     public void generateMenu(){
         menuBar = new JMenuBar();
 
