@@ -156,7 +156,7 @@ public class GUI_project extends JFrame {
         Panel_login.add(Account_input);
         Panel_login.add(Exit);
         Panel_login.add(Login);
-        contentPane.add(Panel_login);
+        
         Panel_login.add(Register);
         Panel_login.add(label_Acc);
         Panel_login.add(label_Password);
@@ -245,7 +245,9 @@ public class GUI_project extends JFrame {
         label_own_reg.setFont(new Font("sansserif",0,12));
         label_own_reg.setText("User Register");
         label_own_reg.setVisible(true);
-
+        contentPane.add(Panel_login);
+        owner_manage_interface(contentPane);
+        create_face(contentPane);
         //adding panel to JFrame and seting of window position and close operation
         this.add(contentPane);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -253,8 +255,7 @@ public class GUI_project extends JFrame {
         this.pack();
         this.setVisible(true);
 
-        owner_manage_interface();
-        create_face();
+        
     }
 
     //Method mouseClicked for Exit
@@ -282,6 +283,7 @@ public class GUI_project extends JFrame {
                     JOptionPane.INFORMATION_MESSAGE);
                 Panel_login.setVisible(false); 
                 panel1.setVisible(true);
+                this.repaint();
                 //owner_manage_interface();
 
             }
@@ -380,7 +382,7 @@ public class GUI_project extends JFrame {
         Panel_login.repaint();
     }
 
-    private void owner_manage_interface()
+    private void owner_manage_interface(JPanel a)
     {
 
         JButton button1;
@@ -389,16 +391,16 @@ public class GUI_project extends JFrame {
         JButton button4;
         JLabel label1;
 
-        //this.setTitle("Manage");
-        //this.setSize(500,400);
+        this.setTitle("Manage");
+        this.setSize(500,400);
         //menu generate method
         //generateMenu();
         //this.setJMenuBar(menuBar);
 
         //pane with null layout
-        JPanel contentPane = new JPanel(null);
-        contentPane.setPreferredSize(new Dimension(500,400));
-        contentPane.setBackground(new Color(192,192,192));
+        //JPanel contentPane = new JPanel(null);
+        a.setPreferredSize(new Dimension(500,400));
+        a.setBackground(new Color(192,192,192));
 
         button1 = new JButton();
         button1.setBounds(69,62,90,35);
@@ -486,14 +488,10 @@ public class GUI_project extends JFrame {
         panel1.add(button3);
         panel1.add(button4);
         panel1.add(label1);
-        contentPane.add(panel1);
+        a.add(panel1);
 
         //adding panel to JFrame and seting of window position and close operation
-        this.add(contentPane);
-        //this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // this.setLocationRelativeTo(null);
-        // this.pack();
-        //this.setVisible(true);
+        
 
     }
 
@@ -509,7 +507,7 @@ public class GUI_project extends JFrame {
         panel_create.setVisible(true);
     }
 
-    private void create_face()
+    private void create_face(JPanel a)
     {
         JButton button1;
         JButton button2;
@@ -521,9 +519,9 @@ public class GUI_project extends JFrame {
 
         this.setTitle("GUI_project");
         this.setSize(500,400);
-        JPanel contentPane = new JPanel(null);
-        contentPane.setPreferredSize(new Dimension(500,400));
-        contentPane.setBackground(new Color(192,192,192));
+        
+        a.setPreferredSize(new Dimension(500,400));
+        a.setBackground(new Color(192,192,192));
 
         button1 = new JButton();
         button1.setBounds(62,298,90,35);
@@ -669,14 +667,9 @@ public class GUI_project extends JFrame {
         panel_create.add(m_c_pq);
         panel_create.add(m_c_mdate);
         panel_create.add(m_c_expdate);
-        contentPane.add(panel_create);
+        a.add(panel_create);
 
-        this.add(contentPane);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setLocationRelativeTo(null);
-        this.pack();
-        this.setVisible(true);
-
+        
     }
 
     private void Confirm_product_info (MouseEvent evt) {
