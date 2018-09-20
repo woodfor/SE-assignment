@@ -9,7 +9,7 @@ import java.util.Iterator;
 public class Account
 {
     // instance variables - replace the example below with your own
-    private int x;
+   
     private ArrayList<String> arraylist;
 
     /**
@@ -52,9 +52,7 @@ public class Account
                 flag = true;
             }
         }
-        
-        
-        
+                        
         if(flag == true)
         return true;
         else

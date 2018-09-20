@@ -35,7 +35,7 @@ public class Controllor
                     int line = 1;
                     while ((tempString = reader.readLine()) != null) 
                     {
-                        customer.userlist(tempString);
+                        customer.userlist(tempString.trim());
                         line++;
                     }
 
@@ -59,6 +59,58 @@ public class Controllor
         catch(FileNotFoundException exception) 
         {                          
         } 
+        
+        File productlist = new File("ProductList.txt");
+        try
+        {
+            if(productlist.exists())
+            {                 
+                BufferedReader reader = null;
+                try 
+                {
+
+                    reader = new BufferedReader(new FileReader(productlist));
+                    String tempString = null;
+                    int line = 1;
+                    while ((tempString = reader.readLine()) != null) 
+                    {
+                        String[] check;
+                        check = tempString.trim().split("/");
+                        //if(isEmpty(check[0].))
+                        
+                        line++;
+                    }
+
+                    reader.close();
+
+                } 
+                catch (IOException e) 
+                {
+                    System.out.println("Unexpected I/O exception occurs");
+
+                } 
+
+            }
+            else
+            {
+                throw new FileNotFoundException();
+
+            }
+
+        }
+        catch(FileNotFoundException exception) 
+        {                          
+        } 
+    }
+    
+     public static boolean isEmpty(Product a)
+    {
+        if (a == null)
+        {
+            return true;
+        }
+        else
+        return false;
     }
 
     /**
@@ -121,6 +173,13 @@ public class Controllor
         return false;
         
     }
+    
+    public void createproduct(String a)
+    {
+        
+    }
+    
+    
     
     /*public String[] readproductlist(String a)
     {

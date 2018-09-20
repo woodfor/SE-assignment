@@ -156,7 +156,7 @@ public class GUI_project extends JFrame {
         Panel_login.add(Account_input);
         Panel_login.add(Exit);
         Panel_login.add(Login);
-        
+
         Panel_login.add(Register);
         Panel_login.add(label_Acc);
         Panel_login.add(label_Password);
@@ -248,6 +248,7 @@ public class GUI_project extends JFrame {
         contentPane.add(Panel_login);
         owner_manage_interface(contentPane);
         create_face(contentPane);
+        edit_face(contentPane);
         //adding panel to JFrame and seting of window position and close operation
         this.add(contentPane);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -255,9 +256,7 @@ public class GUI_project extends JFrame {
         this.pack();
         this.setVisible(true);
 
-        
     }
-
     //Method mouseClicked for Exit
     private void Exit (MouseEvent evt) {
         System.exit(0);
@@ -414,7 +413,8 @@ public class GUI_project extends JFrame {
         //Call defined methods
         button1.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent evt) {
-                    Create(evt);
+                    panel1.setVisible(false);
+                    panel_create.setVisible(true);
                 }
             });
 
@@ -427,10 +427,11 @@ public class GUI_project extends JFrame {
         button2.setText("Edit");
         button2.setVisible(true);
         //Set methods for mouse events
-        //Call defined methods
+        //edit
         button2.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent evt) {
-                    Edit(evt);
+                    panel1.setVisible(false);
+                    panel_Edit.setVisible(true);
                 }
             });
 
@@ -443,7 +444,7 @@ public class GUI_project extends JFrame {
         button3.setText("Remove");
         button3.setVisible(true);
         //Set methods for mouse events
-        //Call defined methods
+        //remove
         button3.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent evt) {
                     Remove(evt);
@@ -460,7 +461,8 @@ public class GUI_project extends JFrame {
         button4.setVisible(true);
         button4.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent evt) {
-                    loginout(evt);
+                    panel1.setVisible(false);
+                    Panel_login.setVisible(true);
                 }
             });
 
@@ -491,22 +493,10 @@ public class GUI_project extends JFrame {
         a.add(panel1);
 
         //adding panel to JFrame and seting of window position and close operation
-        
 
     }
 
-    public void loginout(MouseEvent evt)
-    {
-        panel1.setVisible(false);
-        Panel_login.setVisible(true);
-    }
-
-    public void Create(MouseEvent evt)
-    {
-        panel1.setVisible(false);
-        panel_create.setVisible(true);
-    }
-
+    
     private void create_face(JPanel a)
     {
         JButton button1;
@@ -519,7 +509,7 @@ public class GUI_project extends JFrame {
 
         this.setTitle("GUI_project");
         this.setSize(500,400);
-        
+
         a.setPreferredSize(new Dimension(500,400));
         a.setBackground(new Color(192,192,192));
 
@@ -532,10 +522,10 @@ public class GUI_project extends JFrame {
         button1.setText("Confirm");
         button1.setVisible(true);
         //Set methods for mouse events
-        //Call defined methods
+        //create
         button1.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent evt) {
-                    Confirm_product_info(evt);
+                   
                 }
             });
 
@@ -551,7 +541,8 @@ public class GUI_project extends JFrame {
         //Call defined methods
         button2.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent evt) {
-                    Back_to_manage(evt);
+                    panel_create.setVisible(false);
+                    panel1.setVisible(true);
                 }
             });
 
@@ -669,29 +660,37 @@ public class GUI_project extends JFrame {
         panel_create.add(m_c_expdate);
         a.add(panel_create);
 
-        
     }
 
-    private void Confirm_product_info (MouseEvent evt) {
-        //TODO
-    }
+    
 
-    private void Back_to_manage (MouseEvent evt) 
-    {
-        panel_create.setVisible(false);
-        panel1.setVisible(true);
-    }
-
-    public void Edit(MouseEvent evt)
+    private void edit_face(JPanel a)
     {
         JLabel label6;
+        JButton back;
         JTextField textfield6;
         this.setTitle("edit");
         this.setSize(609,662);
         label6 = new JLabel();
-        JPanel contentPane = new JPanel(null);
-        contentPane.setPreferredSize(new Dimension(609,662));
-        contentPane.setBackground(new Color(192,192,192));
+
+        a.setPreferredSize(new Dimension(609,662));
+        a.setBackground(new Color(192,192,192));
+                
+        back = new JButton();
+        back.setBounds(200,350,90,35);
+        back.setBackground(new Color(214,217,223));
+        back.setForeground(new Color(0,0,0));
+        back.setEnabled(true);
+        back.setFont(new Font("sansserif",0,12));
+        back.setText("Confirm");
+        back.setVisible(true);
+        back.addMouseListener(new MouseAdapter() {
+                public void mouseClicked(MouseEvent evt) {
+                    panel_Edit.setVisible(false);
+                    panel1.setVisible(true);
+                }
+            });
+        
         label6.setBounds(130,85,90,35);
         label6.setBackground(new Color(214,217,223));
         label6.setForeground(new Color(0,0,0));
@@ -716,7 +715,7 @@ public class GUI_project extends JFrame {
         panel_Edit.setForeground(new Color(0,0,0));
         panel_Edit.setEnabled(true);
         panel_Edit.setFont(new Font("sansserif",0,12));
-        panel_Edit.setVisible(true);
+        panel_Edit.setVisible(false);
 
         textfield6 = new JTextField();
         textfield6.setBounds(255,85,160,37);
@@ -735,16 +734,13 @@ public class GUI_project extends JFrame {
         //adding components to contentPane panel
         panel_Edit.add(label6);
         panel_Edit.add(m_e_list);
-        contentPane.add(panel_Edit);
         panel_Edit.add(textfield6);
+        panel_Edit.add(back);
+        a.add(panel_Edit);
+        
 
-        //adding panel to JFrame and seting of window position and close operation
-        this.add(contentPane);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setLocationRelativeTo(null);
-        this.pack();
-        this.setVisible(true);
     }
+
 
     public void Remove(MouseEvent evt)
     {
