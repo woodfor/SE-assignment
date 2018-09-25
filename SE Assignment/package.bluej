@@ -1,17 +1,17 @@
 #BlueJ package file
-dependency1.from=GUI_project
-dependency1.to=Controllor
+dependency1.from=Controllor
+dependency1.to=Account
 dependency1.type=UsesDependency
 dependency2.from=Controllor
-dependency2.to=Account
+dependency2.to=Product
 dependency2.type=UsesDependency
-dependency3.from=Controllor
-dependency3.to=Product
+dependency3.from=GUI_project
+dependency3.to=Controllor
 dependency3.type=UsesDependency
-editor.fx.0.height=739
-editor.fx.0.width=816
-editor.fx.0.x=631
-editor.fx.0.y=100
+editor.fx.0.height=0
+editor.fx.0.width=0
+editor.fx.0.x=0
+editor.fx.0.y=0
 objectbench.height=144
 objectbench.width=760
 package.divider.horizontal=0.6

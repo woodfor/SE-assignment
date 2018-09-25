@@ -1,6 +1,7 @@
 /**
  *Text genereted by Simple GUI Extension for BlueJ
  */
+import java.util.ArrayList;
 import javax.swing.UIManager.LookAndFeelInfo;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -38,12 +39,7 @@ public class GUI_project extends JFrame {
     private Controllor ctrl;
     private JPanel panel1;
     private JPanel panel_create;
-    private JCheckBox M_D_Checkbox;
-    private JTextField m_c_pn;
-    private JTextField m_c_pq;
-    private JTextField m_c_mdate;
-    private JTextField m_c_expdate;
-    private JList m_e_list;
+
     private JPanel panel_Edit;
 
     //Constructor 
@@ -496,7 +492,6 @@ public class GUI_project extends JFrame {
 
     }
 
-    
     private void create_face(JPanel a)
     {
         JButton button1;
@@ -506,6 +501,11 @@ public class GUI_project extends JFrame {
         JLabel label3;
         JLabel label4;
         JLabel label5;
+        JCheckBox m_d_Checkbox;
+        JTextField m_c_pn;
+        JTextField m_c_pq;
+        JTextField m_c_mdate;
+        JTextField m_c_expdate;
 
         this.setTitle("GUI_project");
         this.setSize(500,400);
@@ -523,11 +523,6 @@ public class GUI_project extends JFrame {
         button1.setVisible(true);
         //Set methods for mouse events
         //create
-        button1.addMouseListener(new MouseAdapter() {
-                public void mouseClicked(MouseEvent evt) {
-                   
-                }
-            });
 
         button2 = new JButton();
         button2.setBounds(185,298,90,35);
@@ -546,14 +541,14 @@ public class GUI_project extends JFrame {
                 }
             });
 
-        M_D_Checkbox = new JCheckBox();
-        M_D_Checkbox.setBounds(213,238,90,35);
-        M_D_Checkbox.setBackground(new Color(214,217,223));
-        M_D_Checkbox.setForeground(new Color(0,0,0));
-        M_D_Checkbox.setEnabled(true);
-        M_D_Checkbox.setFont(new Font("sansserif",0,12));
-        M_D_Checkbox.setText("");
-        M_D_Checkbox.setVisible(true);
+        m_d_Checkbox = new JCheckBox();
+        m_d_Checkbox.setBounds(213,238,90,35);
+        m_d_Checkbox.setBackground(new Color(214,217,223));
+        m_d_Checkbox.setForeground(new Color(0,0,0));
+        m_d_Checkbox.setEnabled(true);
+        m_d_Checkbox.setFont(new Font("sansserif",0,12));
+        m_d_Checkbox.setText("");
+        m_d_Checkbox.setVisible(true);
 
         label1 = new JLabel();
         label1.setBounds(48,30,90,35);
@@ -645,10 +640,57 @@ public class GUI_project extends JFrame {
         m_c_expdate.setText("E.g: 01-08-2018");
         m_c_expdate.setVisible(true);
 
+        button1.addMouseListener(new MouseAdapter() {
+                public void mouseClicked(MouseEvent evt) 
+                {
+                    if(ctrl.isInteger(m_c_pq.getText().trim()))
+                    {
+                        if(ctrl.isValidDate(m_c_mdate.getText().trim()) && ctrl.isValidDate(m_c_expdate.getText().trim()))
+                        {
+                            if(ctrl.compareDate(m_c_mdate.getText().trim(),m_c_expdate.getText().trim()))
+                            {
+                                String checkbox;
+                                if(m_d_Checkbox.isSelected())
+                                {
+                                    checkbox="Yes";
+                                }
+                                else
+                                {
+                                    checkbox="No";
+                                }
+                                String a = m_c_pn.getText().trim()+"/"+m_c_pq.getText().trim()+
+                                    "/"+m_c_mdate.getText().trim()+"/"+m_c_expdate.getText().trim()+"/"+checkbox;
+                                if(ctrl.containproduct(a))
+                                {
+                                    due("Items contained");
+
+                                }
+                                else
+                                {
+                                    ctrl.createproduct(a);
+                                    due(a);
+                                }
+                            }
+                            else
+                                due("Make Date after produce Date");
+                        }
+                        else
+                        {
+                            due("Date issues");
+                        }
+                    }
+                    else
+                    {
+                        due("Quantity issues");
+                    }
+
+                }
+            });
+
         //adding components to contentPane panel
         panel_create.add(button1);
         panel_create.add(button2);
-        panel_create.add(M_D_Checkbox);
+        panel_create.add(m_d_Checkbox);
         panel_create.add(label1);
         panel_create.add(label2);
         panel_create.add(label3);
@@ -662,12 +704,11 @@ public class GUI_project extends JFrame {
 
     }
 
-    
-
     private void edit_face(JPanel a)
     {
         JLabel label6;
         JButton back;
+        JList m_e_list;
         JTextField textfield6;
         this.setTitle("edit");
         this.setSize(609,662);
@@ -675,14 +716,14 @@ public class GUI_project extends JFrame {
 
         a.setPreferredSize(new Dimension(609,662));
         a.setBackground(new Color(192,192,192));
-                
+
         back = new JButton();
         back.setBounds(200,350,90,35);
         back.setBackground(new Color(214,217,223));
         back.setForeground(new Color(0,0,0));
         back.setEnabled(true);
         back.setFont(new Font("sansserif",0,12));
-        back.setText("Confirm");
+        back.setText("Back");
         back.setVisible(true);
         back.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent evt) {
@@ -690,7 +731,7 @@ public class GUI_project extends JFrame {
                     panel1.setVisible(true);
                 }
             });
-        
+
         label6.setBounds(130,85,90,35);
         label6.setBackground(new Color(214,217,223));
         label6.setForeground(new Color(0,0,0));
@@ -725,9 +766,27 @@ public class GUI_project extends JFrame {
         textfield6.setFont(new Font("sansserif",0,12));
         textfield6.setText("");
         textfield6.setVisible(true);
-        textfield6.addKeyListener(new KeyAdapter() {
-                public void keyTyped(KeyEvent evt){
 
+        DefaultListModel<String> model = new DefaultListModel<>();
+        textfield6.addKeyListener(new KeyAdapter() {
+                public void keyTyped(KeyEvent evt)
+                {
+                    model.clear();
+                    ArrayList<String> temp = new ArrayList<String>();
+                    if(textfield6.getText().trim().isEmpty())
+                    {}
+                    else{
+                        temp = ctrl.findproduct(textfield6.getText().trim());                                        
+                        for(String item : temp)
+                        {
+                            if(model.contains(item))
+                            {}
+                            else
+                                model.addElement(item);
+                        }
+                        m_e_list.setModel(model);
+                        
+                    }
                 }
             });
 
@@ -737,10 +796,8 @@ public class GUI_project extends JFrame {
         panel_Edit.add(textfield6);
         panel_Edit.add(back);
         a.add(panel_Edit);
-        
 
     }
-
 
     public void Remove(MouseEvent evt)
     {
