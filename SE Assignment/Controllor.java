@@ -213,8 +213,8 @@ public class Controllor
     {
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd"); 
         try{
-            Date bt=sdf.parse(b); 
-            Date et=sdf.parse(a); 
+            Date bt=sdf.parse(a); 
+            Date et=sdf.parse(b); 
             if (bt.before(et)||bt.equals(et))
             { 
                return true;
@@ -248,6 +248,11 @@ public class Controllor
             return false;
     }
 
+    public void removeproduct(String a)
+    {
+        products.remove(a);
+    }
+    
     public ArrayList findproduct(String a)
     {
         return products.search(a);

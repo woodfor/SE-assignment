@@ -4,6 +4,7 @@
 import java.util.ArrayList;
 import javax.swing.UIManager.LookAndFeelInfo;
 import java.awt.*;
+import java.awt.event.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -14,8 +15,11 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import javax.swing.border.Border;
 import javax.swing.*;
+import javax.swing.Action;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
 
-public class GUI_project extends JFrame {
+public  class GUI_project  {
     private JMenuBar menuBar;
     private JTextField Account_input;
     private JButton Exit;
@@ -38,18 +42,24 @@ public class GUI_project extends JFrame {
     private JButton User_OK;
     private Controllor ctrl;
     private JPanel panel1;
-    private JPanel panel_create;
-
+    private JPanel delay;
     private JPanel panel_Edit;
+    private JPanel panel_MQuantity;
+    private JCheckBox m_d_Checkbox;
+    private JTextField m_c_pn;
+    private JTextField m_c_pq;
+    private JTextField m_c_mdate;
+    private JTextField m_c_expdate;
 
     //Constructor 
     public GUI_project(){
         ctrl = new Controllor();
-        this.setTitle("GUI_project");
-        this.setSize(500,400);
+        JFrame frame = new JFrame("GUI_project");
+
+        frame.setSize(500,400);
         //menu generate method
         generateMenu();
-        this.setJMenuBar(menuBar);
+        frame.setJMenuBar(menuBar);
 
         //pane with null layout
         JPanel contentPane = new JPanel(null);
@@ -193,7 +203,43 @@ public class GUI_project extends JFrame {
         //Call defined methods
         User_OK.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent evt) {
-                    User_ok(evt);
+                    String a = Owner_account.getText().trim();
+                    String b = Owner_Pass.getText().trim();
+
+                    if (a.isEmpty()||b.isEmpty())    
+                    {
+                        due("Input something");
+                        Owner_account.requestFocus();//获取焦点          
+                    }
+                    else
+                    {
+                        if (a.charAt(0) == '-' || a.charAt(a.length()-1) == '-' || a.length() > 15 || a.length() < 2)
+                        { due("No '-' in head and tail and 2 <= length < 15 characters");
+
+                            Owner_account.requestFocus();
+                        }
+                        else
+                        {
+                            if(b.length() > 15)
+                            {
+                                due("Password length < 15");
+                            }
+                            else
+                            {
+                                if(ctrl.customerlist(a+"/"+b))
+                                {
+                                    JOptionPane.showMessageDialog(null, "User account registered", "Congratulation",
+                                        JOptionPane.INFORMATION_MESSAGE);
+                                    login_pannel();
+                                }
+                                else
+                                {
+                                    due("Account been taken");
+                                }
+
+                            }
+                        }
+                    }
                 }
             });
 
@@ -243,14 +289,15 @@ public class GUI_project extends JFrame {
         label_own_reg.setVisible(true);
         contentPane.add(Panel_login);
         owner_manage_interface(contentPane);
-        create_face(contentPane);
+        delay = create_face(contentPane,"Confirm","","e.g: 12KG","e.g: 01-01-2018","e.g.: 01-01-2019");
         edit_face(contentPane);
+        MQuantity_face(contentPane);
         //adding panel to JFrame and seting of window position and close operation
-        this.add(contentPane);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setLocationRelativeTo(null);
-        this.pack();
-        this.setVisible(true);
+        frame.add(contentPane);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
+        frame.pack();
+        frame.setVisible(true);
 
     }
     //Method mouseClicked for Exit
@@ -258,12 +305,70 @@ public class GUI_project extends JFrame {
         System.exit(0);
     }
 
-    //Method mouseClicked for Login
+    private void MQuantity_face(JPanel a)
+    {
+        JButton button1;
+
+        JLabel label1;  
+        JTextField textfield1;
+        a.setPreferredSize(new Dimension(500,400));
+        a.setBackground(new Color(192,192,192));
+
+        button1 = new JButton();
+        button1.setBounds(42,137,90,35);
+        button1.setBackground(new Color(214,217,223));
+        button1.setForeground(new Color(0,0,0));
+        button1.setEnabled(true);
+        button1.setFont(new Font("sansserif",0,12));
+        button1.setText("Confirm");
+        button1.setVisible(true);
+        //Call defined methods
+        button1.addMouseListener(new MouseAdapter() {
+                public void mouseClicked(MouseEvent evt) {
+
+                }
+            });
+
+        label1 = new JLabel();
+        label1.setBounds(54,66,90,35);
+        label1.setBackground(new Color(214,217,223));
+        label1.setForeground(new Color(0,0,0));
+        label1.setEnabled(true);
+        label1.setFont(new Font("sansserif",0,12));
+        label1.setText("Modify Quantity");
+        label1.setVisible(true);
+
+        panel_MQuantity = new JPanel(null);
+        panel_MQuantity.setBorder(BorderFactory.createEtchedBorder(1));
+        panel_MQuantity.setBounds(106,90,295,214);
+        panel_MQuantity.setBackground(new Color(214,217,223));
+        panel_MQuantity.setForeground(new Color(0,0,0));
+        panel_MQuantity.setEnabled(true);
+        panel_MQuantity.setFont(new Font("sansserif",0,12));
+        panel_MQuantity.setVisible(false);
+
+        textfield1 = new JTextField();
+        textfield1.setBounds(162,64,90,35);
+        textfield1.setBackground(new Color(255,255,255));
+        textfield1.setForeground(new Color(0,0,0));
+        textfield1.setEnabled(true);
+        textfield1.setFont(new Font("sansserif",0,12));
+        textfield1.setText("");
+        textfield1.setVisible(true);
+
+        //adding components to contentPane panel
+        panel_MQuantity.add(button1);       
+        panel_MQuantity.add(label1);
+        a.add(panel_MQuantity);
+        panel_MQuantity.add(textfield1);
+
+    }
+
     private void Login_click (MouseEvent evt) {
         if (Account_input.getText().trim().equals("")
         || Account_input.getText().length()==0 || String.valueOf( passwordfield_main.getPassword()).equals(""))
         {
-            JOptionPane.showMessageDialog(this, "Input something", "Warning",
+            JOptionPane.showMessageDialog(null, "Input something", "Warning",
                 JOptionPane.INFORMATION_MESSAGE);
             this.Account_input.requestFocus();//获取焦点
             return;
@@ -272,20 +377,20 @@ public class GUI_project extends JFrame {
         {
             String whole = Account_input.getText().trim() + "/" + String.valueOf(passwordfield_main.getPassword());
             //System.out.println(whole);
-            if(whole.equals("admin/pass"))
+            if(whole.equals("a/a"))
             {
-                JOptionPane.showMessageDialog(this,  "Welcome login in", "Owner Admin",
+                JOptionPane.showMessageDialog(null,  "Welcome login in", "Owner Admin",
                     JOptionPane.INFORMATION_MESSAGE);
                 Panel_login.setVisible(false); 
                 panel1.setVisible(true);
-                this.repaint();
+
                 //owner_manage_interface();
 
             }
             else
             if(ctrl.login_validation(whole))
             {
-                JOptionPane.showMessageDialog(this, Account_input.getText().trim() + " Welcome login in", "Hello",
+                JOptionPane.showMessageDialog(null, Account_input.getText().trim() + " Welcome login in", "Hello",
                     JOptionPane.INFORMATION_MESSAGE);
 
             }
@@ -314,48 +419,12 @@ public class GUI_project extends JFrame {
 
     private void User_ok (MouseEvent evt)
     {
-        String a = Owner_account.getText().trim();
-        String b = Owner_Pass.getText().trim();
 
-        if (a.isEmpty()||b.isEmpty())    
-        {
-            due("Input something");
-            this.Owner_account.requestFocus();//获取焦点          
-        }
-        else
-        {
-            if (a.charAt(0) == '-' || a.charAt(a.length()-1) == '-' || a.length() > 15 || a.length() < 2)
-            { due("No '-' in head and tail and 2 <= length < 15 characters");
-
-                this.Owner_account.requestFocus();
-            }
-            else
-            {
-                if(b.length() > 15)
-                {
-                    due("Password length < 15");
-                }
-                else
-                {
-                    if(ctrl.customerlist(a+"/"+b))
-                    {
-                        JOptionPane.showMessageDialog(this, "User account registered", "Congratulation",
-                            JOptionPane.INFORMATION_MESSAGE);
-                        login_pannel();
-                    }
-                    else
-                    {
-                        due("Account been taken");
-                    }
-
-                }
-            }
-        }
     }
 
     private void due(String a)
     {
-        JOptionPane.showMessageDialog(this, a, "Warning",
+        JOptionPane.showMessageDialog(null, a, "Warning",
             JOptionPane.INFORMATION_MESSAGE);
     }
 
@@ -386,8 +455,6 @@ public class GUI_project extends JFrame {
         JButton button4;
         JLabel label1;
 
-        this.setTitle("Manage");
-        this.setSize(500,400);
         //menu generate method
         //generateMenu();
         //this.setJMenuBar(menuBar);
@@ -410,7 +477,7 @@ public class GUI_project extends JFrame {
         button1.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent evt) {
                     panel1.setVisible(false);
-                    panel_create.setVisible(true);
+                    delay.setVisible(true);
                 }
             });
 
@@ -492,8 +559,9 @@ public class GUI_project extends JFrame {
 
     }
 
-    private void create_face(JPanel a)
+    private JPanel create_face(JPanel a, String b1, String l1,String l2,String l3,String l4)
     {
+        JPanel panel_create;
         JButton button1;
         JButton button2;
         JLabel label1;
@@ -501,14 +569,6 @@ public class GUI_project extends JFrame {
         JLabel label3;
         JLabel label4;
         JLabel label5;
-        JCheckBox m_d_Checkbox;
-        JTextField m_c_pn;
-        JTextField m_c_pq;
-        JTextField m_c_mdate;
-        JTextField m_c_expdate;
-
-        this.setTitle("GUI_project");
-        this.setSize(500,400);
 
         a.setPreferredSize(new Dimension(500,400));
         a.setBackground(new Color(192,192,192));
@@ -519,7 +579,7 @@ public class GUI_project extends JFrame {
         button1.setForeground(new Color(0,0,0));
         button1.setEnabled(true);
         button1.setFont(new Font("sansserif",0,12));
-        button1.setText("Confirm");
+        button1.setText(b1);
         button1.setVisible(true);
         //Set methods for mouse events
         //create
@@ -536,7 +596,7 @@ public class GUI_project extends JFrame {
         //Call defined methods
         button2.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent evt) {
-                    panel_create.setVisible(false);
+                    delay.setVisible(false);
                     panel1.setVisible(true);
                 }
             });
@@ -610,7 +670,7 @@ public class GUI_project extends JFrame {
         m_c_pn.setForeground(new Color(0,0,0));
         m_c_pn.setEnabled(true);
         m_c_pn.setFont(new Font("sansserif",0,12));
-        m_c_pn.setText("");
+        m_c_pn.setText(l1);
         m_c_pn.setVisible(true);
 
         m_c_pq = new JTextField();
@@ -619,25 +679,25 @@ public class GUI_project extends JFrame {
         m_c_pq.setForeground(new Color(0,0,0));
         m_c_pq.setEnabled(true);
         m_c_pq.setFont(new Font("SansSerif",0,12));
-        m_c_pq.setText("E.g: 12 KG");
+        m_c_pq.setText(l2);
         m_c_pq.setVisible(true);
 
         m_c_mdate = new JTextField();
-        m_c_mdate.setBounds(180,180,104,34);
+        m_c_mdate.setBounds(180,130,104,34);
         m_c_mdate.setBackground(new Color(255,255,255));
         m_c_mdate.setForeground(new Color(0,0,0));
         m_c_mdate.setEnabled(true);
         m_c_mdate.setFont(new Font("sansserif",0,12));
-        m_c_mdate.setText("E.g: 01-08-2019");
+        m_c_mdate.setText(l3);
         m_c_mdate.setVisible(true);
 
         m_c_expdate = new JTextField();
-        m_c_expdate.setBounds(180,130,104,34);
+        m_c_expdate.setBounds(180,180,104,34);
         m_c_expdate.setBackground(new Color(255,255,255));
         m_c_expdate.setForeground(new Color(0,0,0));
         m_c_expdate.setEnabled(true);
         m_c_expdate.setFont(new Font("sansserif",0,12));
-        m_c_expdate.setText("E.g: 01-08-2018");
+        m_c_expdate.setText(l4);
         m_c_expdate.setVisible(true);
 
         button1.addMouseListener(new MouseAdapter() {
@@ -662,7 +722,14 @@ public class GUI_project extends JFrame {
                                     "/"+m_c_mdate.getText().trim()+"/"+m_c_expdate.getText().trim()+"/"+checkbox;
                                 if(ctrl.containproduct(a))
                                 {
-                                    due("Items contained");
+                                    due("Product contained");
+                                    /*int result = JOptionPane.showConfirmDialog(null, "Item contained, Edit quantity?",
+                                    "Confirm", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE); 
+                                    if(result == JOptionPane.OK_OPTION)
+                                    {
+                                    panel_MQuantity.setVisible(true);
+
+                                    }*/
 
                                 }
                                 else
@@ -701,6 +768,7 @@ public class GUI_project extends JFrame {
         panel_create.add(m_c_mdate);
         panel_create.add(m_c_expdate);
         a.add(panel_create);
+        return panel_create;
 
     }
 
@@ -710,8 +778,7 @@ public class GUI_project extends JFrame {
         JButton back;
         JList m_e_list;
         JTextField textfield6;
-        this.setTitle("edit");
-        this.setSize(609,662);
+
         label6 = new JLabel();
 
         a.setPreferredSize(new Dimension(609,662));
@@ -768,10 +835,11 @@ public class GUI_project extends JFrame {
         textfield6.setVisible(true);
 
         DefaultListModel<String> model = new DefaultListModel<>();
-        textfield6.addKeyListener(new KeyAdapter() {
-                public void keyTyped(KeyEvent evt)
+        textfield6.addCaretListener(new CaretListener() {
+                public void caretUpdate(CaretEvent ce)
                 {
                     model.clear();
+                    m_e_list.setModel(model);
                     ArrayList<String> temp = new ArrayList<String>();
                     if(textfield6.getText().trim().isEmpty())
                     {}
@@ -785,9 +853,31 @@ public class GUI_project extends JFrame {
                                 model.addElement(item);
                         }
                         m_e_list.setModel(model);
-                        
+
                     }
                 }
+            });
+
+        m_e_list.addMouseListener(new MouseAdapter()
+            {
+
+                public void mouseClicked(MouseEvent e)
+                {
+
+                    if(m_e_list.getSelectedIndex()!=-1)
+                    {
+                        if(e.getClickCount()==2)
+                        {
+                            String tmp = m_e_list.getSelectedValue().toString();
+                            doubleClick(tmp);
+                            model.clear();
+                            m_e_list.setModel(model);
+                        }
+
+                    }
+
+                }
+
             });
 
         //adding components to contentPane panel
@@ -797,6 +887,23 @@ public class GUI_project extends JFrame {
         panel_Edit.add(back);
         a.add(panel_Edit);
 
+    }
+
+    public void doubleClick(String a)
+    {    
+
+        ctrl.removeproduct(a.trim());
+        String[] check = a.split("/");        
+        panel_Edit.setVisible(false);
+        delay.setVisible(true);
+        if(check[4].trim().equals("Yes"))
+            m_d_Checkbox.setSelected(true);
+        else
+            m_d_Checkbox.setSelected(false);
+        m_c_pn.setText(check[0]);
+        m_c_pq.setText(check[1]);
+        m_c_mdate.setText(check[2]);
+        m_c_expdate.setText(check[3]);
     }
 
     public void Remove(MouseEvent evt)

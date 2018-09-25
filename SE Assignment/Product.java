@@ -27,6 +27,12 @@ public class Product
         arraylist.add(a);
     }
 
+    public void remove(String a)
+    {
+        if(arraylist.contains(a))
+            arraylist.remove(a);
+    }
+
     public boolean contain(String a)
     {
         if(arraylist.contains(a))
@@ -47,21 +53,26 @@ public class Product
     public ArrayList search(String name)
     {
         ArrayList results = new ArrayList();
-        Pattern pattern = Pattern.compile(name,Pattern.CASE_INSENSITIVE);
-        for(int i=0; i < arraylist.size(); i++){
-            String[] check;
-            check = arraylist.get(i).split("/");
-            Matcher matcher = pattern.matcher(check[0]);
-            if(matcher.find()){
-                results.add(arraylist.get(i));
+        try
+        { Pattern pattern = Pattern.compile(name,Pattern.CASE_INSENSITIVE);
+            for(int i=0; i < arraylist.size(); i++)
+            {
+                String[] check;
+                check = arraylist.get(i).split("/");
+                Matcher matcher = pattern.matcher(check[0]);
+                if(matcher.find())
+                {
+                    results.add(arraylist.get(i));
+                }
             }
         }
+        catch(Exception e)
+        {
+        }
+
         return results;
     }
 
-    public void remove(String a)
-    {
-        arraylist.remove(a);
-    }
+  
 
 }
