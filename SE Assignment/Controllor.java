@@ -17,8 +17,7 @@ public class Controllor
 
     private Account owner;
     private Account customer;
-    private Product products;
-    
+    private ProductList productList;
 
     /**
      * Constructor for objects of class Contorllor
@@ -26,10 +25,10 @@ public class Controllor
     public Controllor()
     {
         // initialise instance variables
-        
+
         owner=new Account();
         customer=new Account();
-        products=new Product();
+        productList = new ProductList();
 
         File fileCust = new File("UserList.txt");
         try
@@ -76,6 +75,7 @@ public class Controllor
             if(productlist.exists())
             {                 
                 BufferedReader reader = null;
+
                 try 
                 {
 
@@ -84,7 +84,7 @@ public class Controllor
                     int line = 1;
                     while ((tempString = reader.readLine()) != null) 
                     {
-                        products.addlist(tempString.trim());
+                        createproduct(tempString);
 
                         line++;
                     }
@@ -174,7 +174,16 @@ public class Controllor
 
     public void createproduct(String a)
     {
-        products.addlist(a);
+        boolean tmpb;
+        String check[];
+        check = a.trim().split("/");
+        if(check[5].equals("Yes"))
+            tmpb = true;
+        else
+            tmpb = false;
+        Product tmp = new Product(check[0],check[1],check[2],check[3],check[4],tmpb,check[6]);
+        productList.addList(tmp);
+
     }
 
     public boolean isValidDate(String str) {
@@ -217,7 +226,7 @@ public class Controllor
             Date et=sdf.parse(b); 
             if (bt.before(et)||bt.equals(et))
             { 
-               return true;
+                return true;
             }
             else
             { 
@@ -230,7 +239,8 @@ public class Controllor
         }
 
     }
-    public boolean isInteger(String str) 
+
+    public boolean isKG(String str) 
     {   
         Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");    
         if(pattern.matcher(str).matches())
@@ -248,22 +258,75 @@ public class Controllor
             return false;
     }
 
+    public boolean isInteger(String str)
+    {
+        Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");    
+        if(pattern.matcher(str).matches())
+            return true;
+        else 
+            return false;
+    }
+
+    public Product findExact(String a)
+    {
+        boolean tmpb;
+        String check[];
+        check = a.trim().split("/");
+        if(check[5].equals("Yes"))
+            tmpb = true;
+        else
+            tmpb = false;
+
+        for(Product i : productList.getList())
+        {
+            if(i.getName().equalsIgnoreCase((check[0])) &&
+            i.getQuantity().equals(check[1]) &&
+            i.getPrice().equals(check[2]) &&
+            i.getmkdate().equals(check[3]) &&
+            i.getExprdate().equals(check[4]) &&
+            i.getDon()==tmpb && 
+            i.getDiscount().equals(check[6]))
+                return i;
+        }
+        return null;
+    }
+
     public void removeproduct(String a)
     {
-        products.remove(a);
+        productList.remove(findExact(a));
+
     }
-    
-    public ArrayList findproduct(String a)
+
+    public ArrayList findProduct(String a)
     {
-        return products.search(a);
+        return productList.search(a);
     }
-    
-    public boolean containproduct(String a)
+
+    public boolean containProduct(String a)
     {
-        if(products.contain(a))
-            return true;
-        else
+        if(findExact(a)==null)
             return false;
+        else
+            return true;
+    }
+
+    public void EditProduct(String a, String b)
+    {
+        findExact(a).setQuantity(b);
+    } 
+
+    public void EditProduct(String n, String q, String p,String md,String ed,String don,String discount,String change)
+    {
+        boolean tmpb;
+        if(don.equals("Yes"))
+            tmpb=true;
+        else
+            tmpb=false;
+        String a = n+"/"+q+"/"+p+"/"+md+"/"+ed+"/"+don+"/"+discount;
+
+        productList.remove(findExact(a)); 
+        createproduct(change);
+
     }
 
     /*public String[] readproductlist(String a)

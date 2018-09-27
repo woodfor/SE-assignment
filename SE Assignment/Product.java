@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
+
 /**
  * Write a description of class Product here.
  *
@@ -11,68 +8,109 @@ import java.util.regex.Matcher;
 public class Product
 {
     // instance variables - replace the example below with your own
-    private ArrayList<String> arraylist;
+    private String name;
+    private String quantity;
+    private String price;
+    private String mkdate;
+    private String exprdate;
+    private String discount;
+    private boolean donate;
+    
+    
 
     /**
      * Constructor for objects of class Product
      */
     public Product()
     {
-        arraylist = new ArrayList<String>();
-
+        // initialise instance variables
+        name = "";
+        quantity = "";
+        price = "";
+        mkdate = "";
+        exprdate = "";
+        discount = "100";
+        donate = false;
     }
-
-    public void addlist(String a)
+    
+    public Product(String n, String q, String p, String md, String exp, boolean don, String dis)
     {
-        arraylist.add(a);
+        name = n;
+        quantity = q;
+        price = p;
+        mkdate = md;
+        exprdate = exp;
+        donate = don;
+        discount = dis;
     }
-
-    public void remove(String a)
+    
+    public String getName()
     {
-        if(arraylist.contains(a))
-            arraylist.remove(a);
+        return name;
     }
-
-    public boolean contain(String a)
+    
+    public String getQuantity()
     {
-        if(arraylist.contains(a))
-            return true;
-        else
-            return false;
+        return quantity;
     }
-
-    public void replace(String a,String b)
+    
+    public String getPrice()
     {
-        if(arraylist.contains(a))
-        {
-            int position=arraylist.indexOf(a);//oldId对应的index
-            arraylist.set(position,b); 
-        }
-    } 
-
-    public ArrayList search(String name)
-    {
-        ArrayList results = new ArrayList();
-        try
-        { Pattern pattern = Pattern.compile(name,Pattern.CASE_INSENSITIVE);
-            for(int i=0; i < arraylist.size(); i++)
-            {
-                String[] check;
-                check = arraylist.get(i).split("/");
-                Matcher matcher = pattern.matcher(check[0]);
-                if(matcher.find())
-                {
-                    results.add(arraylist.get(i));
-                }
-            }
-        }
-        catch(Exception e)
-        {
-        }
-
-        return results;
+        return price;
     }
-
-  
-
+    
+    public String getmkdate()
+    {
+        return mkdate;
+    }
+    
+    public String getExprdate()
+    {
+        return exprdate;
+    }
+    
+    public boolean getDon()
+    {
+        return donate;
+    }
+    
+    public String getDiscount()
+    {
+        return discount;
+    }
+    
+    public void setName(String a)
+    {
+        name = a;
+    }
+    
+    public void setQuantity(String a)
+    {
+        quantity = a;
+    }
+    
+    public void setPrice(String a)
+    {
+        price = a;
+    }
+    
+    public void setmkdate(String a)
+    {
+        mkdate = a;
+    }
+    
+    public void setExprdate(String a)
+    {
+        exprdate = a;
+    }
+    
+    public void setDon(boolean a)
+    {
+        donate = a;
+    }
+    
+    public void setDiscount(String a)
+    {
+        discount = a;
+    }
 }
