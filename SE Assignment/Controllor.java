@@ -15,10 +15,9 @@ import java.util.ArrayList;
 public class Controllor
 {
 
-    private Account owner;
-    private Account customer;
-    private Product products;
     
+    private Account customerList;
+    private ProductList productList;
 
     /**
      * Constructor for objects of class Contorllor
@@ -26,10 +25,10 @@ public class Controllor
     public Controllor()
     {
         // initialise instance variables
+
         
-        owner=new Account();
-        customer=new Account();
-        products=new Product();
+        customerList=new Account();
+        productList = new ProductList();
 
         File fileCust = new File("UserList.txt");
         try
@@ -45,7 +44,8 @@ public class Controllor
                     int line = 1;
                     while ((tempString = reader.readLine()) != null) 
                     {
-                        customer.userlist(tempString.trim());
+                        
+                        customerList.addlist(tempString.trim());
                         line++;
                     }
 
@@ -76,6 +76,7 @@ public class Controllor
             if(productlist.exists())
             {                 
                 BufferedReader reader = null;
+
                 try 
                 {
 
@@ -84,7 +85,7 @@ public class Controllor
                     int line = 1;
                     while ((tempString = reader.readLine()) != null) 
                     {
-                        products.addlist(tempString.trim());
+                        createproduct(tempString);
 
                         line++;
                     }
@@ -111,61 +112,26 @@ public class Controllor
         } 
     }
 
-    /**
-     * An example of a method - replace this comment with your own
-     *
-     * @param  y  a sample parameter for a method
-     * @return    the sum of x and y
-     */
-    public boolean ownerlist(String a)
+    
+
+    public boolean addCustomerList(String a)
     {
-        if (owner.containlist(a))
+        if (customerList.containlist(a))
             return false;
         else
         {
-
-            owner.userlist(a);
-            try
-            {
-
-                FileWriter outputFile = new FileWriter("OwnerList.txt",true);
-                outputFile.write(a+"\r\n");                      
-                outputFile.close();
-            }
-            catch(IOException e)
-            {
-                System.out.println("Unexcepted IO errors");
-            }
-            return true;
-        }
-    }
-
-    public boolean customerlist(String a)
-    {
-        if (customer.containlist(a))
-            return false;
-        else
-        {
-            customer.userlist(a);
-            try
-            {
-
-                FileWriter outputFile = new FileWriter("UserList.txt",true);
-                outputFile.write(a+"\r\n");                      
-                outputFile.close();
-            }
-            catch(IOException e)
-            {
-                System.out.println("Unexcepted IO errors");
-            }
+            customerList.addlist(a);
+            
             return true;
         }  
     }
 
+    
+    
     public boolean login_validation(String a)
     {
 
-        if(customer.ac_valid(a))        
+        if(customerList.ac_valid(a))        
             return true;        
         else
             return false;
@@ -174,7 +140,9 @@ public class Controllor
 
     public void createproduct(String a)
     {
-        products.addlist(a);
+       
+        productList.addList(a);
+        
     }
 
     public boolean isValidDate(String str) {
@@ -217,7 +185,7 @@ public class Controllor
             Date et=sdf.parse(b); 
             if (bt.before(et)||bt.equals(et))
             { 
-               return true;
+                return true;
             }
             else
             { 
@@ -230,7 +198,8 @@ public class Controllor
         }
 
     }
-    public boolean isInteger(String str) 
+
+    public boolean isKG(String str) 
     {   
         Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");    
         if(pattern.matcher(str).matches())
@@ -248,26 +217,91 @@ public class Controllor
             return false;
     }
 
-    public void removeproduct(String a)
+    public boolean isInteger(String str)
     {
-        products.remove(a);
-    }
-    
-    public ArrayList findproduct(String a)
-    {
-        return products.search(a);
-    }
-    
-    public boolean containproduct(String a)
-    {
-        if(products.contain(a))
+        Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");    
+        if(pattern.matcher(str).matches())
             return true;
-        else
+        else 
             return false;
     }
 
-    /*public String[] readproductlist(String a)
+    public Product findExact(String a)
     {
+        boolean tmpb;
+        String check[];
+        check = a.trim().split("/");
+        if(check[5].equals("Yes"))
+            tmpb = true;
+        else
+            tmpb = false;
 
-    }*/
+        for(Product i : productList.getList())
+        {
+            if(i.getName().equalsIgnoreCase((check[0])) &&
+            i.getQuantity().equals(check[1]) &&
+            i.getPrice().equals(check[2]) &&
+            i.getmkdate().equals(check[3]) &&
+            i.getExprdate().equals(check[4]) &&
+            i.getDon()==tmpb && 
+            i.getDiscount().equals(check[6]))
+                return i;
+        }
+        return null;
+    }
+
+    public void removeproduct(String a)
+    {
+        productList.remove(findExact(a));
+        
+    }
+
+    public ArrayList findProduct(String a)
+    {
+        return productList.search(a);
+    }
+
+    public boolean containProduct(String a)
+    {
+        if(findExact(a)==null)
+            return false;
+        else
+            return true;
+    }
+
+    public void EditProduct(String a, String b)
+    {
+        findExact(a).setQuantity(b);
+    } 
+
+    public void EditProduct(String n, String q, String p,String md,String ed,String don,String discount,String change)
+    {
+        boolean tmpb;
+        if(don.equals("Yes"))
+            tmpb=true;
+        else
+            tmpb=false;
+        String a = n+"/"+q+"/"+p+"/"+md+"/"+ed+"/"+don+"/"+discount;
+
+        productList.remove(findExact(a)); 
+        createproduct(change);
+
+    }
+    
+     public void removeAC(String a)
+    {
+        String[] tmp = a.split("/");
+        for(Customer c : customerList.getlist())
+        {
+            if(tmp[0].equals(c.getID()))
+            customerList.remove(c);
+        }
+    }
+    
+    public ArrayList containAccount(String a)
+    {
+        return customerList.search(a);
+    }
+
+    
 }

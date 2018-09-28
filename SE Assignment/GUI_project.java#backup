@@ -23,15 +23,20 @@ public  class GUI_project  {
     private JMenuBar menuBar;
     private JPanel Panel_login;
     private Controllor ctrl;
-    
+    private JPanel panel1;
+    private JPanel delay;
+    private JPanel panel_Edit;
+    private JPanel panel_MQuantity;
+    private JCheckBox m_d_Checkbox;
+    private JTextField m_c_pp;
+    private JTextField m_c_pn;
+    private JTextField m_c_pq;
+    private JTextField m_c_mdate;
+    private JTextField m_c_expdate;
+    private JTextField m_c_dis;
 
     //Constructor 
     public GUI_project(){
-        
-        login_face();
-    }
-    private void login_face()
-    {
         JTextField Account_input;
         JButton Exit;
         JButton Login;
@@ -43,11 +48,14 @@ public  class GUI_project  {
         JButton User_reg;
         JPasswordField passwordfield_main;
         JButton Owner_OK;
-        
-        
-        
+        JTextField Owner_Pass;
+        JTextField Owner_account;
+        JButton Back;
+        JButton Owner_Back;
+        JLabel Owner_label1;
+        JLabel Owner_label2;
         JLabel label_own_reg;
-        
+        JButton User_OK;
         ctrl = new Controllor();
         JFrame frame = new JFrame("GUI_project");
 
@@ -119,9 +127,10 @@ public  class GUI_project  {
                         {
                             JOptionPane.showMessageDialog(null,  "Welcome login in", "Owner Admin",
                                 JOptionPane.INFORMATION_MESSAGE);
-                             
-                            manageMenu();
-                            frame.dispose();
+                            Panel_login.setVisible(false); 
+                            panel1.setVisible(true);
+
+                            //owner_manage_interface();
 
                         }
                         else
@@ -178,6 +187,7 @@ public  class GUI_project  {
         label_Password.setText("Password:");
         label_Password.setVisible(true);
 
+
         //adding components to contentPane panel
         Panel_login.add(Account_input);
         Panel_login.add(Exit);
@@ -197,68 +207,31 @@ public  class GUI_project  {
         Owner_reg.setText("Owner");
         Owner_reg.setVisible(true);
 
-       
-
-        label_own_reg = new JLabel();
-        label_own_reg.setBounds(11,13,90,35);
-        label_own_reg.setBackground(new Color(214,217,223));
-        label_own_reg.setForeground(new Color(0,0,0));
-        label_own_reg.setEnabled(true);
-        label_own_reg.setFont(new Font("sansserif",0,12));
-        label_own_reg.setText("User Register");
-        label_own_reg.setVisible(true);
-        Register.addMouseListener(new MouseAdapter() {
-                public void mouseClicked(MouseEvent evt) {
-                    reg_Interface();
-                }
-            });
-        contentPane.add(Panel_login);
-        
-
-        //adding panel to JFrame and seting of window position and close operation
-        frame.add(contentPane);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
-        frame.pack();
-        frame.setVisible(true);
-    }
-    
-    private void due(String a)
-    {
-        JOptionPane.showMessageDialog(null, a, "Warning",
-            JOptionPane.INFORMATION_MESSAGE);
-    }
-    
-    private void reg_Interface()
-    {
-        JFrame frame = new JFrame();
-        frame.setSize(600,600);
-        
-        JButton Owner_Back;
-        JLabel Owner_label1;
-        JLabel Owner_label2;
-        JButton User_OK;
-        JTextField Owner_Pass;
-        JTextField Owner_account;
-        JPanel contentPane = new JPanel(null);
-        contentPane.setPreferredSize(new Dimension(600,600));
-        contentPane.setBackground(new Color(192,192,192));
-         Owner_Back = new JButton();
-        Owner_Back.setBounds(179,230,90,35);
+        Owner_Back = new JButton();
+        Owner_Back.setBounds(179,134,90,35);
         Owner_Back.setBackground(new Color(214,217,223));
         Owner_Back.setForeground(new Color(0,0,0));
         Owner_Back.setEnabled(true);
         Owner_Back.setFont(new Font("sansserif",0,12));
-        Owner_Back.setText("Cancel");
+        Owner_Back.setText("Back");
         Owner_Back.setVisible(true);
         Owner_Back.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent evt) {
-                   frame.dispose(); 
+                    Panel_login.removeAll();
+                    Panel_login.repaint();
+                    Panel_login.add(Account_input);
+                    Panel_login.add(Exit);
+                    Panel_login.add(Login);       
+                    Panel_login.add(Register);
+                    Panel_login.add(label_Acc);
+                    Panel_login.add(label_Password);
+                    Panel_login.add(passwordfield_main);
+                    Panel_login.repaint();
                 }
             });
 
         User_OK = new JButton();
-        User_OK.setBounds(58,230,90,35);
+        User_OK.setBounds(58,134,90,35);
         User_OK.setBackground(new Color(214,217,223));
         User_OK.setForeground(new Color(0,0,0));
         User_OK.setEnabled(true);
@@ -266,7 +239,7 @@ public  class GUI_project  {
         User_OK.setText("OK");
         User_OK.setVisible(true);
         Owner_Pass = new JTextField();
-        Owner_Pass.setBounds(156,80,123,33);
+        Owner_Pass.setBounds(156,88,123,33);
         Owner_Pass.setBackground(new Color(255,255,255));
         Owner_Pass.setForeground(new Color(0,0,0));
         Owner_Pass.setEnabled(true);
@@ -275,39 +248,19 @@ public  class GUI_project  {
         Owner_Pass.setVisible(true);
 
         Owner_account = new JTextField();
-        Owner_account.setBounds(156,30,124,32);
+        Owner_account.setBounds(156,50,124,32);
         Owner_account.setBackground(new Color(255,255,255));
         Owner_account.setForeground(new Color(0,0,0));
         Owner_account.setEnabled(true);
         Owner_account.setFont(new Font("sansserif",0,12));
         Owner_account.setText("");
         Owner_account.setVisible(true);
-        
-        JTextField address = new JTextField();       
-        address.setBounds(156,130,123,33);
-        address.setBackground(new Color(255,255,255));
-        address.setForeground(new Color(0,0,0));
-        address.setEnabled(true);
-        address.setFont(new Font("sansserif",0,12));
-        address.setText("");
-        address.setVisible(true);
-
-        JTextField payment = new JTextField();
-        payment.setBounds(156,180,124,32);
-        payment.setBackground(new Color(255,255,255));
-        payment.setForeground(new Color(0,0,0));
-        payment.setEnabled(true);
-        payment.setFont(new Font("sansserif",0,12));
-        payment.setText("");
-        payment.setVisible(true);
-        
         User_OK.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent evt) {
                     String a = Owner_account.getText().trim();
                     String b = Owner_Pass.getText().trim();
-                    String c = address.getText().trim();
-                    String d = payment.getText().trim();
-                    if (a.isEmpty()||b.isEmpty()||c.isEmpty()||d.isEmpty())    
+
+                    if (a.isEmpty()||b.isEmpty())    
                     {
                         due("Input something");
                         Owner_account.requestFocus();//获取焦点          
@@ -327,12 +280,20 @@ public  class GUI_project  {
                             }
                             else
                             {
-                                if(ctrl.addCustomerList(a+"/"+b+"/"+c+"/"+"d"))
+                                if(ctrl.customerlist(a+"/"+b))
                                 {
                                     JOptionPane.showMessageDialog(null, "User account registered", "Congratulation",
                                         JOptionPane.INFORMATION_MESSAGE);
-                                    frame.dispose();    
-                                   
+                                    Panel_login.removeAll();
+                                    Panel_login.repaint();
+                                    Panel_login.add(Account_input);
+                                    Panel_login.add(Exit);
+                                    Panel_login.add(Login);       
+                                    Panel_login.add(Register);
+                                    Panel_login.add(label_Acc);
+                                    Panel_login.add(label_Password);
+                                    Panel_login.add(passwordfield_main);
+                                    Panel_login.repaint();
                                 }
                                 else
                                 {
@@ -345,8 +306,9 @@ public  class GUI_project  {
                 }
             });
 
+
         Owner_label1 = new JLabel();
-        Owner_label1.setBounds(56,30,90,35);
+        Owner_label1.setBounds(56,48,90,35);
         Owner_label1.setBackground(new Color(214,217,223));
         Owner_label1.setForeground(new Color(0,0,0));
         Owner_label1.setEnabled(true);
@@ -355,75 +317,132 @@ public  class GUI_project  {
         Owner_label1.setVisible(true);
 
         Owner_label2 = new JLabel();
-        Owner_label2.setBounds(56,80,90,35);
+        Owner_label2.setBounds(56,87,90,35);
         Owner_label2.setBackground(new Color(214,217,223));
         Owner_label2.setForeground(new Color(0,0,0));
         Owner_label2.setEnabled(true);
         Owner_label2.setFont(new Font("sansserif",0,12));
         Owner_label2.setText("Password");
         Owner_label2.setVisible(true);
-        
-        JLabel addlabel = new JLabel();
-        addlabel.setBounds(56,130,90,35);
-        addlabel.setBackground(new Color(214,217,223));
-        addlabel.setForeground(new Color(0,0,0));
-        addlabel.setEnabled(true);
-        addlabel.setFont(new Font("sansserif",0,12));
-        addlabel.setText("Address");
-        addlabel.setVisible(true);
-        
-        JLabel paylabel = new JLabel();
-        paylabel.setBounds(56,180,90,35);
-        paylabel.setBackground(new Color(214,217,223));
-        paylabel.setForeground(new Color(0,0,0));
-        paylabel.setEnabled(true);
-        paylabel.setFont(new Font("sansserif",0,12));
-        paylabel.setText("payment");
-        paylabel.setVisible(true);
-        
-        JPanel panel1 = new JPanel(null);
-        panel1.setBorder(BorderFactory.createEtchedBorder(1));
-        panel1.setBounds(28,129,550,391);
-        panel1.setBackground(new Color(214,217,223));
-        panel1.setForeground(new Color(0,0,0));
-        panel1.setEnabled(true);
-        panel1.setFont(new Font("sansserif",0,12));
-        panel1.setVisible(true);
 
-        //adding components to contentPane panel
-        panel1.add(Owner_Back);
-        panel1.add(Owner_label1);
-        panel1.add(paylabel);
-        panel1.add(addlabel);
-        panel1.add(Owner_label2);
-        panel1.add(User_OK);
-        panel1.add(Owner_Pass);
-        panel1.add(Owner_account);
-        panel1.add(payment);
-        panel1.add(address);
-        
-        contentPane.add(panel1);
-
+        label_own_reg = new JLabel();
+        label_own_reg.setBounds(11,13,90,35);
+        label_own_reg.setBackground(new Color(214,217,223));
+        label_own_reg.setForeground(new Color(0,0,0));
+        label_own_reg.setEnabled(true);
+        label_own_reg.setFont(new Font("sansserif",0,12));
+        label_own_reg.setText("User Register");
+        label_own_reg.setVisible(true);
+        Register.addMouseListener(new MouseAdapter() {
+                public void mouseClicked(MouseEvent evt) {
+                    Panel_login.removeAll();
+                    Panel_login.repaint();
+                    label_own_reg.setText("User Register");
+                    Panel_login.add(Owner_Back);
+                    Panel_login.add(User_OK);
+                    Panel_login.add(Owner_Pass);
+                    Panel_login.add(Owner_account);
+                    Panel_login.add(Owner_label1);
+                    Panel_login.add(Owner_label2);
+                    Panel_login.add(label_own_reg);
+                    Panel_login.repaint();
+                }
+            });
+        contentPane.add(Panel_login);
+        owner_manage_interface(contentPane);
+        delay = create_face(contentPane,"Confirm","","e.g: 12KG","e.g: 01-01-2018","e.g.: 01-01-2019");
+        edit_face(contentPane);
+        MQuantity_face(contentPane);
         //adding panel to JFrame and seting of window position and close operation
         frame.add(contentPane);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.pack();
         frame.setVisible(true);
+
+    }
+    //Method mouseClicked for Exit
+
+    private void MQuantity_face(JPanel a)
+    {
+        JButton button1;
+
+        JLabel label1;  
+        JTextField textfield1;       
+        button1 = new JButton();
+        button1.setBounds(42,137,90,35);
+        button1.setBackground(new Color(214,217,223));
+        button1.setForeground(new Color(0,0,0));
+        button1.setEnabled(true);
+        button1.setFont(new Font("sansserif",0,12));
+        button1.setText("Confirm");
+        button1.setVisible(true);
+        //Call defined methods
+        button1.addMouseListener(new MouseAdapter() {
+                public void mouseClicked(MouseEvent evt) {
+
+                }
+            });
+
+        label1 = new JLabel();
+        label1.setBounds(54,66,90,35);
+        label1.setBackground(new Color(214,217,223));
+        label1.setForeground(new Color(0,0,0));
+        label1.setEnabled(true);
+        label1.setFont(new Font("sansserif",0,12));
+        label1.setText("Modify Quantity");
+        label1.setVisible(true);
+
+        panel_MQuantity = new JPanel(null);
+        panel_MQuantity.setBorder(BorderFactory.createEtchedBorder(1));
+        panel_MQuantity.setBounds(106,90,295,214);
+        panel_MQuantity.setBackground(new Color(214,217,223));
+        panel_MQuantity.setForeground(new Color(0,0,0));
+        panel_MQuantity.setEnabled(true);
+        panel_MQuantity.setFont(new Font("sansserif",0,12));
+        panel_MQuantity.setVisible(false);
+
+        textfield1 = new JTextField();
+        textfield1.setBounds(162,64,90,35);
+        textfield1.setBackground(new Color(255,255,255));
+        textfield1.setForeground(new Color(0,0,0));
+        textfield1.setEnabled(true);
+        textfield1.setFont(new Font("sansserif",0,12));
+        textfield1.setText("");
+        textfield1.setVisible(true);
+
+        //adding components to contentPane panel
+        panel_MQuantity.add(button1);       
+        panel_MQuantity.add(label1);
+        a.add(panel_MQuantity);
+        panel_MQuantity.add(textfield1);
+
     }
 
-    private void owner_manage_interface()
+    //Method mouseClicked for Register
+
+    private void due(String a)
     {
-        JPanel panel1;
+        JOptionPane.showMessageDialog(null, a, "Warning",
+            JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private void owner_manage_interface(JPanel a)
+    {
+
         JButton button1;
         JButton button2;
         JButton button3;
         JButton button4;
         JLabel label1;
-        
-        JFrame frame = new JFrame("Manage");
-        frame.setSize(600,600);
-        JPanel contentPane = new JPanel(null);
+
+        //menu generate method
+        //generateMenu();
+        //this.setJMenuBar(menuBar);
+
+        //pane with null layout
+        //JPanel contentPane = new JPanel(null);
+
 
         button1 = new JButton();
         button1.setBounds(69,62,90,35);
@@ -437,7 +456,8 @@ public  class GUI_project  {
         //Call defined methods
         button1.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent evt) {
-                    create_face("", "12", "10", "01-01-2018", "01-01-2019", "Yes", "100", "Create");
+                    panel1.setVisible(false);
+                    delay.setVisible(true);
                 }
             });
 
@@ -453,7 +473,8 @@ public  class GUI_project  {
         //edit
         button2.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent evt) {
-                    edit_face("Edit");
+                    panel1.setVisible(false);
+                    panel_Edit.setVisible(true);
                 }
             });
 
@@ -469,7 +490,7 @@ public  class GUI_project  {
         //remove
         button3.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent evt) {
-                    edit_face("Remove");
+                    Remove(evt);
                 }
             });
 
@@ -479,12 +500,12 @@ public  class GUI_project  {
         button4.setForeground(new Color(0,0,0));
         button4.setEnabled(true);
         button4.setFont(new Font("sansserif",0,12));
-        button4.setText("Back");
+        button4.setText("Log out");
         button4.setVisible(true);
         button4.addMouseListener(new MouseAdapter() {
-                public void mouseClicked(MouseEvent evt) {                    
-                    manageMenu();
-                    frame.dispose();
+                public void mouseClicked(MouseEvent evt) {
+                    panel1.setVisible(false);
+                    Panel_login.setVisible(true);
                 }
             });
 
@@ -504,329 +525,22 @@ public  class GUI_project  {
         panel1.setForeground(new Color(0,0,0));
         panel1.setEnabled(true);
         panel1.setFont(new Font("sansserif",0,12));
-        panel1.setVisible(true);
-        
-        contentPane.setPreferredSize(new Dimension(600,600));
-        contentPane.setBackground(new Color(192,192,192));        
+        panel1.setVisible(false);
+
+        //adding components to contentPane panel
         panel1.add(button1);
         panel1.add(button2);
         panel1.add(button3);
         panel1.add(button4);
         panel1.add(label1);
-        contentPane.add(panel1);
-        frame.add(contentPane);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
-        frame.pack();
-        frame.setVisible(true);
+        a.add(panel1);
 
         //adding panel to JFrame and seting of window position and close operation
 
     }
 
-    private void edit_face(String a)
+    private JPanel create_face(JPanel a, String b1, String l1,String l2,String l3,String l4)
     {
-        JFrame frame = new JFrame(a);
-        JButton back;
-        JList m_e_list;
-        JTextField textfield6;
-        JPanel panel_Edit;
-        JLabel label6 = new JLabel();
-        frame.setSize(600, 600);
-        JPanel contentPane = new JPanel(null);
-        contentPane.setPreferredSize(new Dimension(600,600));
-        contentPane.setBackground(new Color(192,192,192));
-        back = new JButton();
-        back.setBounds(200,350,90,35);
-        back.setBackground(new Color(214,217,223));
-        back.setForeground(new Color(0,0,0));
-        back.setEnabled(true);
-        back.setFont(new Font("sansserif",0,12));
-        back.setText("Back");
-        back.setVisible(true);
-        back.addMouseListener(new MouseAdapter() {
-                public void mouseClicked(MouseEvent evt) {
-                    frame.dispose();
-                }
-            });
-
-        label6.setBounds(130,85,90,35);
-        label6.setBackground(new Color(214,217,223));
-        label6.setForeground(new Color(0,0,0));
-        label6.setEnabled(true);
-        label6.setFont(new Font("sansserif",0,12));
-        label6.setText("Search:");
-        label6.setVisible(true);
-
-        m_e_list = new JList();
-        m_e_list.setBounds(47,156,461,164);
-        m_e_list.setBackground(new Color(255,255,255));
-        m_e_list.setForeground(new Color(0,0,0));
-        m_e_list.setEnabled(true);
-        m_e_list.setFont(new Font("sansserif",0,12));
-        m_e_list.setVisible(true);
-        JScrollPane scrollPane = new JScrollPane(m_e_list);
-
-        panel_Edit = new JPanel(null);
-        panel_Edit.setBorder(BorderFactory.createEtchedBorder(1));
-        panel_Edit.setBounds(28,129,550,391);
-        panel_Edit.setBackground(new Color(214,217,223));
-        panel_Edit.setForeground(new Color(0,0,0));
-        panel_Edit.setEnabled(true);
-        panel_Edit.setFont(new Font("sansserif",0,12));
-        panel_Edit.setVisible(true);
-
-        textfield6 = new JTextField();
-        textfield6.setBounds(255,85,160,37);
-        textfield6.setBackground(new Color(255,255,255));
-        textfield6.setForeground(new Color(0,0,0));
-        textfield6.setEnabled(true);
-        textfield6.setFont(new Font("sansserif",0,12));
-        textfield6.setText("");
-        textfield6.setVisible(true);
-
-        DefaultListModel<String> model = new DefaultListModel<>();
-        textfield6.addCaretListener(new CaretListener() {
-                public void caretUpdate(CaretEvent ce)
-                {
-                    if(a.equals("Edit")||a.equals("Remove")||a.equals("SP"))
-                    {
-                    model.clear();
-                    m_e_list.setModel(model);
-                    ArrayList<String> temp = new ArrayList<String>();
-                    if(textfield6.getText().trim().isEmpty())
-                    {
-                    }
-                    else{
-                        temp = ctrl.findProduct(textfield6.getText().trim());                                        
-                        for(String item : temp)
-                        {
-                            if(model.contains(item))
-                            {}
-                            else
-                                model.addElement(item);
-                        }
-                        m_e_list.setModel(model);
-
-                    }
-                }
-                if(a.equals("MA"))
-                {
-                     model.clear();
-                    m_e_list.setModel(model);
-                    ArrayList<String> temp = new ArrayList<String>();
-                    if(textfield6.getText().trim().isEmpty())
-                    {
-                    }
-                     else{
-                        temp = ctrl.containAccount(textfield6.getText().trim());                                        
-                        for(String item : temp)
-                        {
-                            if(model.contains(item))
-                            {}
-                            else
-                                model.addElement(item);
-                        }
-                        m_e_list.setModel(model);
-
-                    }
-                }
-                }
-            });
-
-        m_e_list.addMouseListener(new MouseAdapter()
-            {
-
-                public void mouseClicked(MouseEvent e)
-                {
-
-                    if(m_e_list.getSelectedIndex()!=-1)
-                    {
-                        if(e.getClickCount()==2)
-                        {
-                             String tmp = m_e_list.getSelectedValue().toString();
-                            if(a.equals("Edit"))
-                            {
-                               
-                                doubleClick(tmp);
-                            }
-                            if(a.equals("Remove"))
-                            {
-                                int result = JOptionPane.showConfirmDialog(null, "Sure Remove?",
-                                                        "Remove", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE); 
-                                                if(result == JOptionPane.OK_OPTION)
-                                                {
-                                                    ctrl.removeproduct(tmp);
-
-                                                }
-                                
-                            }
-                            if(a.equals("MA"))
-                            {
-                                int result = JOptionPane.showConfirmDialog(null, "Sure Remove?",
-                                                        "Remove", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE); 
-                                                if(result == JOptionPane.OK_OPTION)
-                                                {
-                                                    ctrl.removeAC(tmp);
-
-                                                }
-                            }
-                            model.clear();
-                            m_e_list.setModel(model);
-                        }
-
-                    }
-
-                }
-
-            });
-
-        //adding components to contentPane panel
-        panel_Edit.add(label6);
-        panel_Edit.add(m_e_list);
-        panel_Edit.add(textfield6);
-        panel_Edit.add(back);
-        contentPane.add(panel_Edit);
-        frame.add(contentPane);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
-        frame.pack();
-        frame.setVisible(true);
-
-    }
-
-    public void doubleClick(String a)
-    {    
-
-        String[] check = a.split("/");                      
-        create_face(check[0],check[1],check[2],check[3],check[4],check[5],check[6],"Edit");
-    }
-    
-    
-
-    public void edit_Quantity(int a,String b)
-    {
-        JFrame frame = new JFrame("Edit Quantity");
-        JLabel Quantity;
-        JButton button1;
-        JButton button2;
-        JLabel label2;
-        JPanel panel1;
-        JTextField textfield1;
-        frame.setSize(500,400);
-        JPanel contentPane = new JPanel(null);
-        contentPane.setPreferredSize(new Dimension(500,400));
-        contentPane.setBackground(new Color(192,192,192));
-
-        Quantity = new JLabel();
-        Quantity.setBounds(72,78,90,35);
-        Quantity.setBackground(new Color(214,217,223));
-        Quantity.setForeground(new Color(0,0,0));
-        Quantity.setEnabled(true);
-        Quantity.setFont(new Font("SansSerif",0,12));
-        Quantity.setText("Quantity:");
-        Quantity.setVisible(true);
-
-        button1 = new JButton();
-        button1.setBounds(39,161,90,35);
-        button1.setBackground(new Color(214,217,223));
-        button1.setForeground(new Color(0,0,0));
-        button1.setEnabled(true);
-        button1.setFont(new Font("sansserif",0,12));
-        button1.setText("Confirm");
-        button1.setVisible(true);
-        //Set methods for mouse events
-        //Call defined methods
-
-        button2 = new JButton();
-        button2.setBounds(181,161,90,35);
-        button2.setBackground(new Color(214,217,223));
-        button2.setForeground(new Color(0,0,0));
-        button2.setEnabled(true);
-        button2.setFont(new Font("sansserif",0,12));
-        button2.setText("Cancel");
-        button2.setVisible(true);
-        //Set methods for mouse events
-        //Call defined methods
-        button2.addMouseListener(new MouseAdapter() {
-                public void mouseClicked(MouseEvent evt) {
-                    frame.dispose();
-                }
-            });
-
-        label2 = new JLabel();
-        label2.setBounds(14,12,90,35);
-        label2.setBackground(new Color(214,217,223));
-        label2.setForeground(new Color(0,0,0));
-        label2.setEnabled(true);
-        label2.setFont(new Font("sansserif",0,12));
-        label2.setText("Edit Quantity");
-        label2.setVisible(true);
-
-        panel1 = new JPanel(null);
-        panel1.setBorder(BorderFactory.createEtchedBorder(1));
-        panel1.setBounds(98,78,323,233);
-        panel1.setBackground(new Color(214,217,223));
-        panel1.setForeground(new Color(0,0,0));
-        panel1.setEnabled(true);
-        panel1.setFont(new Font("sansserif",0,12));
-        panel1.setVisible(true);
-
-        textfield1 = new JTextField();
-        textfield1.setBounds(180,75,90,35);
-        textfield1.setBackground(new Color(255,255,255));
-        textfield1.setForeground(new Color(0,0,0));
-        textfield1.setEnabled(true);
-        textfield1.setFont(new Font("sansserif",0,12));
-        textfield1.setText("");
-        textfield1.setVisible(true);
-
-        button1.addMouseListener(new MouseAdapter() {
-                public void mouseClicked(MouseEvent evt) {
-                    if(a==1)
-                    {
-                        if(ctrl.isInteger(textfield1.getText().trim()))
-                        {
-                            ctrl.EditProduct(b,textfield1.getText().trim());
-                            frame.dispose();
-                        }
-                        else
-                        {
-                            due("Input number please");
-
-                        }
-                    }
-
-                }
-            });
-
-        //adding components to contentPane panel
-        panel1.add(Quantity);
-        panel1.add(button1);
-        panel1.add(button2);
-        panel1.add(label2);
-        contentPane.add(panel1);
-        panel1.add(textfield1);
-
-        //adding panel to JFrame and seting of window position and close operation
-        frame.add(contentPane);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
-        frame.pack();
-        frame.setVisible(true);
-
-    }
-
-    private void create_face(String n, String q, String p,String md,String ed,String don,String discount,String b)
-    {
-        JCheckBox m_d_Checkbox;
-        JTextField m_c_pp;
-        JTextField m_c_pn;
-        JTextField m_c_pq;
-        JTextField m_c_mdate;
-        JTextField m_c_expdate;
-        JTextField m_c_dis;
-        JFrame frame = new JFrame(b);
         JPanel panel_create;
         JButton button1;
         JButton button2;
@@ -836,17 +550,14 @@ public  class GUI_project  {
         JLabel label4;
         JLabel label5;
 
-        frame.setSize(600, 600);
-        JPanel contentPane = new JPanel(null);
-        contentPane.setPreferredSize(new Dimension(600,600));
-        contentPane.setBackground(new Color(192,192,192));
+         
         button1 = new JButton();
         button1.setBounds(62,400,90,35);
         button1.setBackground(new Color(214,217,223));
         button1.setForeground(new Color(0,0,0));
         button1.setEnabled(true);
         button1.setFont(new Font("sansserif",0,12));
-        button1.setText(b);
+        button1.setText(b1);
         button1.setVisible(true);
         //Set methods for mouse events
         //create
@@ -857,13 +568,14 @@ public  class GUI_project  {
         button2.setForeground(new Color(0,0,0));
         button2.setEnabled(true);
         button2.setFont(new Font("sansserif",0,12));
-        button2.setText("Cancel");
+        button2.setText("Back");
         button2.setVisible(true);
         //Set methods for mouse events
         //Call defined methods
         button2.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent evt) {
-                    frame.dispose();
+                    delay.setVisible(false);
+                    panel1.setVisible(true);
                 }
             });
 
@@ -873,10 +585,7 @@ public  class GUI_project  {
         m_d_Checkbox.setForeground(new Color(0,0,0));
         m_d_Checkbox.setEnabled(true);
         m_d_Checkbox.setFont(new Font("sansserif",0,12));
-        if(don.equals("Yes"))
-            m_d_Checkbox.setSelected(true);
-        else
-            m_d_Checkbox.setSelected(false);
+        m_d_Checkbox.setText("");
         m_d_Checkbox.setVisible(true);
 
         label1 = new JLabel();
@@ -969,7 +678,7 @@ public  class GUI_project  {
         panel_create.setForeground(new Color(0,0,0));
         panel_create.setEnabled(true);
         panel_create.setFont(new Font("sansserif",0,12));
-        panel_create.setVisible(true);
+        panel_create.setVisible(false);
 
         m_c_pn = new JTextField();
         m_c_pn.setBounds(180,30,104,34);
@@ -977,7 +686,7 @@ public  class GUI_project  {
         m_c_pn.setForeground(new Color(0,0,0));
         m_c_pn.setEnabled(true);
         m_c_pn.setFont(new Font("sansserif",0,12));
-        m_c_pn.setText(n);
+        m_c_pn.setText(l1);
         m_c_pn.setVisible(true);
 
         m_c_pq = new JTextField();
@@ -986,7 +695,7 @@ public  class GUI_project  {
         m_c_pq.setForeground(new Color(0,0,0));
         m_c_pq.setEnabled(true);
         m_c_pq.setFont(new Font("SansSerif",0,12));
-        m_c_pq.setText(q);
+        m_c_pq.setText(l2);
         m_c_pq.setVisible(true);
 
         m_c_pp = new JTextField();
@@ -995,7 +704,7 @@ public  class GUI_project  {
         m_c_pp.setForeground(new Color(0,0,0));
         m_c_pp.setEnabled(true);
         m_c_pp.setFont(new Font("SansSerif",0,12));
-        m_c_pp.setText(p);
+        m_c_pp.setText("e.g: 20");
         m_c_pp.setVisible(true);
 
         m_c_mdate = new JTextField();
@@ -1004,7 +713,7 @@ public  class GUI_project  {
         m_c_mdate.setForeground(new Color(0,0,0));
         m_c_mdate.setEnabled(true);
         m_c_mdate.setFont(new Font("sansserif",0,12));
-        m_c_mdate.setText(md);
+        m_c_mdate.setText(l3);
         m_c_mdate.setVisible(true);
 
         m_c_expdate = new JTextField();
@@ -1013,7 +722,7 @@ public  class GUI_project  {
         m_c_expdate.setForeground(new Color(0,0,0));
         m_c_expdate.setEnabled(true);
         m_c_expdate.setFont(new Font("sansserif",0,12));
-        m_c_expdate.setText(ed);
+        m_c_expdate.setText(l4);
         m_c_expdate.setVisible(true);
 
         m_c_dis = new JTextField();
@@ -1022,7 +731,7 @@ public  class GUI_project  {
         m_c_dis.setForeground(new Color(0,0,0));
         m_c_dis.setEnabled(true);
         m_c_dis.setFont(new Font("sansserif",0,12));
-        m_c_dis.setText(discount);
+        m_c_dis.setText("e.g: 20");
         m_c_dis.setVisible(true);
 
         button1.addMouseListener(new MouseAdapter() {
@@ -1050,35 +759,22 @@ public  class GUI_project  {
                                         String a = m_c_pn.getText().trim()+"/"+m_c_pq.getText().trim()+
                                             "/"+ m_c_pp.getText().trim() + "/" + m_c_mdate.getText().trim()+"/"+m_c_expdate.getText().trim()+"/"+checkbox+"/"+
                                             m_c_dis.getText().trim()+"%";
-
-                                        if(b.equals("Create"))
+                                        if(ctrl.containProduct(a))
                                         {
-
-                                            
-                                            if(ctrl.containProduct(a))
+                                            due("Product contained");
+                                            /*int result = JOptionPane.showConfirmDialog(null, "Item contained, Edit quantity?",
+                                            "Confirm", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE); 
+                                            if(result == JOptionPane.OK_OPTION)
                                             {
+                                            panel_MQuantity.setVisible(true);
 
-                                                int result = JOptionPane.showConfirmDialog(null, "Item contained, Edit quantity?",
-                                                        "Edit?", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE); 
-                                                if(result == JOptionPane.OK_OPTION)
-                                                {
-                                                    edit_Quantity(1,a);
+                                            }*/
 
-                                                }
-
-                                            }
-                                            else
-                                            {
-                                                ctrl.createproduct(a);
-                                                due(a);
-                                            }
                                         }
                                         else
                                         {
-                                            ctrl.EditProduct(n,q,p,md,ed,don,discount,a);
+                                            ctrl.createproduct(a);
                                             due(a);
-                                            frame.dispose();
-
                                         }
                                     }
                                     else
@@ -1125,106 +821,262 @@ public  class GUI_project  {
         panel_create.add(m_c_dis);
         panel_create.add(label7);
         panel_create.add(label8);
-        contentPane.add(panel_create);
-
-        frame.add(contentPane);        
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
-        frame.pack();
-        frame.setVisible(true);
+        a.add(panel_create);
+        return panel_create;
 
     }
 
-    public void manageMenu()
+    private void edit_face(JPanel a)
     {
+        JLabel label6;
+        JButton back;
+        JList m_e_list;
+        JTextField textfield6;
+
+        label6 = new JLabel();
+
+         
+        back = new JButton();
+        back.setBounds(200,350,90,35);
+        back.setBackground(new Color(214,217,223));
+        back.setForeground(new Color(0,0,0));
+        back.setEnabled(true);
+        back.setFont(new Font("sansserif",0,12));
+        back.setText("Back");
+        back.setVisible(true);
+        back.addMouseListener(new MouseAdapter() {
+                public void mouseClicked(MouseEvent evt) {
+                    panel_Edit.setVisible(false);
+                    panel1.setVisible(true);
+                }
+            });
+
+        label6.setBounds(130,85,90,35);
+        label6.setBackground(new Color(214,217,223));
+        label6.setForeground(new Color(0,0,0));
+        label6.setEnabled(true);
+        label6.setFont(new Font("sansserif",0,12));
+        label6.setText("Search:");
+        label6.setVisible(true);
+
+        m_e_list = new JList();
+        m_e_list.setBounds(47,156,461,164);
+        m_e_list.setBackground(new Color(255,255,255));
+        m_e_list.setForeground(new Color(0,0,0));
+        m_e_list.setEnabled(true);
+        m_e_list.setFont(new Font("sansserif",0,12));
+        m_e_list.setVisible(true);
+        JScrollPane scrollPane = new JScrollPane(m_e_list);
+
+        panel_Edit = new JPanel(null);
+        panel_Edit.setBorder(BorderFactory.createEtchedBorder(1));
+        panel_Edit.setBounds(28,129,550,391);
+        panel_Edit.setBackground(new Color(214,217,223));
+        panel_Edit.setForeground(new Color(0,0,0));
+        panel_Edit.setEnabled(true);
+        panel_Edit.setFont(new Font("sansserif",0,12));
+        panel_Edit.setVisible(false);
+
+        textfield6 = new JTextField();
+        textfield6.setBounds(255,85,160,37);
+        textfield6.setBackground(new Color(255,255,255));
+        textfield6.setForeground(new Color(0,0,0));
+        textfield6.setEnabled(true);
+        textfield6.setFont(new Font("sansserif",0,12));
+        textfield6.setText("");
+        textfield6.setVisible(true);
+
+        DefaultListModel<String> model = new DefaultListModel<>();
+        textfield6.addCaretListener(new CaretListener() {
+                public void caretUpdate(CaretEvent ce)
+                {
+                    model.clear();
+                    m_e_list.setModel(model);
+                    ArrayList<String> temp = new ArrayList<String>();
+                    if(textfield6.getText().trim().isEmpty())
+                    {}
+                    else{
+                        temp = ctrl.findProduct(textfield6.getText().trim());                                        
+                        for(String item : temp)
+                        {
+                            if(model.contains(item))
+                            {}
+                            else
+                                model.addElement(item);
+                        }
+                        m_e_list.setModel(model);
+
+                    }
+                }
+            });
+
+        m_e_list.addMouseListener(new MouseAdapter()
+            {
+
+                public void mouseClicked(MouseEvent e)
+                {
+
+                    if(m_e_list.getSelectedIndex()!=-1)
+                    {
+                        if(e.getClickCount()==2)
+                        {
+                            String tmp = m_e_list.getSelectedValue().toString();
+                            doubleClick(tmp);
+                            model.clear();
+                            m_e_list.setModel(model);
+                        }
+
+                    }
+
+                }
+
+            });
+
+        //adding components to contentPane panel
+        panel_Edit.add(label6);
+        panel_Edit.add(m_e_list);
+        panel_Edit.add(textfield6);
+        panel_Edit.add(back);
+        a.add(panel_Edit);
+
+    }
+
+    public void doubleClick(String a)
+    {    
+
+        ctrl.removeproduct(a.trim());
+        String[] check = a.split("/");        
+        panel_Edit.setVisible(false);
+        delay.setVisible(true);
+        if(check[4].trim().equals("Yes"))
+            m_d_Checkbox.setSelected(true);
+        else
+            m_d_Checkbox.setSelected(false);
+        m_c_pn.setText(check[0]);
+        m_c_pq.setText(check[1]);
+        m_c_mdate.setText(check[2]);
+        m_c_expdate.setText(check[3]);
+    }
+
+     public void edit_Quantity(int a)
+    {
+        JFrame frame = new JFrame("Edit Quantity");
+        JLabel Quantity;
         JButton button1;
         JButton button2;
-        JButton button3;
+        JLabel label2;
         JPanel panel1;
-        JFrame frame = new JFrame("ManageMenu");
+        JTextField textfield1;
         frame.setSize(500,400);
         JPanel contentPane = new JPanel(null);
         contentPane.setPreferredSize(new Dimension(500,400));
         contentPane.setBackground(new Color(192,192,192));
+
+
+        Quantity = new JLabel();
+        Quantity.setBounds(72,78,90,35);
+        Quantity.setBackground(new Color(214,217,223));
+        Quantity.setForeground(new Color(0,0,0));
+        Quantity.setEnabled(true);
+        Quantity.setFont(new Font("SansSerif",0,12));
+        Quantity.setText("Quantity:");
+        Quantity.setVisible(true);
+
         button1 = new JButton();
-        button1.setBounds(93,32,132,32);
+        button1.setBounds(39,161,90,35);
         button1.setBackground(new Color(214,217,223));
         button1.setForeground(new Color(0,0,0));
         button1.setEnabled(true);
         button1.setFont(new Font("sansserif",0,12));
-        button1.setText("Manage Product");
+        button1.setText("Confirm");
         button1.setVisible(true);
         //Set methods for mouse events
         //Call defined methods
-        button1.addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent evt)
-            {
-                owner_manage_interface();
-                
-            }
-        });
+        
 
 
         button2 = new JButton();
-        button2.setBounds(93,91,132,32);
+        button2.setBounds(181,161,90,35);
         button2.setBackground(new Color(214,217,223));
         button2.setForeground(new Color(0,0,0));
         button2.setEnabled(true);
         button2.setFont(new Font("sansserif",0,12));
-        button2.setText("Manage Account");
+        button2.setText("Cancel");
         button2.setVisible(true);
         //Set methods for mouse events
         //Call defined methods
         button2.addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent evt)
-            {
-                edit_face("MA");
+            public void mouseClicked(MouseEvent evt) {
+                frame.dispose();
             }
         });
 
 
-        button3 = new JButton();
-        button3.setBounds(93,155,132,32);
-        button3.setBackground(new Color(214,217,223));
-        button3.setForeground(new Color(0,0,0));
-        button3.setEnabled(true);
-        button3.setFont(new Font("sansserif",0,12));
-        button3.setText("Logout");
-        button3.setVisible(true);
-        //Set methods for mouse events
-        //Call defined methods
-        button3.addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent evt)
-            {
-                
-                 frame.dispose();
-                 login_face();
-                
-            }
-        });
-
+        label2 = new JLabel();
+        label2.setBounds(14,12,90,35);
+        label2.setBackground(new Color(214,217,223));
+        label2.setForeground(new Color(0,0,0));
+        label2.setEnabled(true);
+        label2.setFont(new Font("sansserif",0,12));
+        label2.setText("Edit Quantity");
+        label2.setVisible(true);
 
         panel1 = new JPanel(null);
         panel1.setBorder(BorderFactory.createEtchedBorder(1));
-        panel1.setBounds(95,102,326,215);
+        panel1.setBounds(98,78,323,233);
         panel1.setBackground(new Color(214,217,223));
         panel1.setForeground(new Color(0,0,0));
         panel1.setEnabled(true);
         panel1.setFont(new Font("sansserif",0,12));
         panel1.setVisible(true);
 
-        //adding components to contentPane panel
-        panel1.add(button1);
-        panel1.add(button2);
-        panel1.add(button3);
-        contentPane.add(panel1);
+        textfield1 = new JTextField();
+		textfield1.setBounds(180,75,90,35);
+		textfield1.setBackground(new Color(255,255,255));
+		textfield1.setForeground(new Color(0,0,0));
+		textfield1.setEnabled(true);
+		textfield1.setFont(new Font("sansserif",0,12));
+		textfield1.setText("");
+		textfield1.setVisible(true);
+		
+		button1.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent evt) {
+			    if(a==1)
+			    {
+			        if(ctrl.isInteger(textfield1.getText().trim()))
+			        {
+			            
+			         }
+			        else
+			        {
 
-        //adding panel to JFrame and seting of window position and close operation
-        frame.add(contentPane);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
-        frame.pack();
-        frame.setVisible(true);
+			         }
+			     }
+				
+			}
+		});
+
+		//adding components to contentPane panel
+		panel1.add(Quantity);
+		panel1.add(button1);
+		panel1.add(button2);
+		panel1.add(label2);
+		contentPane.add(panel1);
+		panel1.add(textfield1);
+
+		//adding panel to JFrame and seting of window position and close operation
+		frame.add(contentPane);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setLocationRelativeTo(null);
+		frame.pack();
+		frame.setVisible(true);
+       
+    }
+    
+    public void Remove(MouseEvent evt)
+    {
+
+        due("Hello");
     }
 
     public void generateMenu(){

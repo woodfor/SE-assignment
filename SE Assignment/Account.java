@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 /**
  * Write a description of class Account here.
  *
@@ -9,15 +11,15 @@ import java.util.Iterator;
 public class Account
 {
     // instance variables - replace the example below with your own
-   
-    private ArrayList<String> arraylist;
+
+    private ArrayList<Customer> arraylist;
 
     /**
      * Constructor for objects of class Account
      */
     public Account()
     {
-        arraylist = new ArrayList<String>();
+        arraylist = new ArrayList<Customer>();
 
     }
 
@@ -27,47 +29,78 @@ public class Account
      * @param  y  a sample parameter for a method
      * @return    the sum of x and y
      */
-    public void userlist(String a)
+    public void addlist(String a)
     {
-        arraylist.add(a);
+        String[] check;
+        check = a.split("/");
+        Customer tmp;
+        if(check.length==5)
+        tmp = new Customer(check[0],check[1],check[2],check[3],check[4]);
+        else
+        tmp = new Customer(check[0],check[1],check[2],check[3]);
+        arraylist.add(tmp);
     }
 
-    public void getlist(String a)
+    public ArrayList<Customer> getlist()
     {
-        arraylist.add(a);
+        return arraylist;
     }
-
+    
+    public void remove(Customer a)
+    {
+         if(arraylist.contains(a))
+            arraylist.remove(a);
+    }
+    
     public boolean containlist(String a)
     {
         String[] check;
         check = a.split("/");
-        boolean flag = false;
-        for(String tmp : arraylist)
+        
+        for(Customer tmp : arraylist)
         {            
-            String[] check1;
-            check1 = tmp.split("/");
-            
-            if(check[0].equals(check1[0]))
+
+            if(check[0].equals(tmp.getName()))
             {
-                flag = true;
+                return true;
             }
         }
-                        
-        if(flag == true)
-        return true;
-        else
-        {
-            //getlist(a);
+
         return false;
     }
+
+    public ArrayList<String> search(String name)
+    {
+        ArrayList<String> results = new ArrayList<String>();
+        try
+        { Pattern pattern = Pattern.compile(name,Pattern.CASE_INSENSITIVE);
+            for(int i=0; i < arraylist.size(); i++)
+            {
+
+                Matcher matcher = pattern.matcher(arraylist.get(i).getName());
+                if(matcher.find())
+                {                    
+                    results.add(arraylist.get(i).getID()+"/"+ arraylist.get(i).getName());
+                }
+            }
+        }
+        catch(Exception e)
+        {
+        }
+
+        return results;
+    }
+
+    public boolean ac_valid(String a)
+    {
+        String[] tmp = a.split("/");
+        for(Customer c : arraylist)
+        {
+            if(tmp[0].equals(c.getName())&&tmp[1].equals(c.getPassword()))
+            return true;
+        }
+        return false;
     }
     
    
-    public boolean ac_valid(String a)
-    {
-        if(arraylist.contains(a))
-        return true;
-        else
-        return false;
-    }
 }
