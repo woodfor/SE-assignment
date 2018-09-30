@@ -69,9 +69,9 @@ public class Account
         return false;
     }
 
-    public ArrayList<String> search(String name)
+    public ArrayList<Customer> search(String name)
     {
-        ArrayList<String> results = new ArrayList<String>();
+        ArrayList<Customer> results = new ArrayList<Customer>();
         try
         { Pattern pattern = Pattern.compile(name,Pattern.CASE_INSENSITIVE);
             for(int i=0; i < arraylist.size(); i++)
@@ -80,7 +80,7 @@ public class Account
                 Matcher matcher = pattern.matcher(arraylist.get(i).getName());
                 if(matcher.find())
                 {                    
-                    results.add(arraylist.get(i).getID()+"/"+ arraylist.get(i).getName());
+                    results.add(arraylist.get(i));
                 }
             }
         }
@@ -91,15 +91,15 @@ public class Account
         return results;
     }
 
-    public boolean ac_valid(String a)
+    public Customer ac_valid(String a)
     {
         String[] tmp = a.split("/");
         for(Customer c : arraylist)
         {
             if(tmp[0].equals(c.getName())&&tmp[1].equals(c.getPassword()))
-            return true;
+            return c;
         }
-        return false;
+        return null;
     }
     
    

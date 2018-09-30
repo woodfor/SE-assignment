@@ -18,8 +18,7 @@ public class User
      */
     public User()
     {
-        Long h = System.currentTimeMillis();//获得当前时间的毫秒数
-	String str = h.toString();//转化为字符串	
+        
         id = "";
         name = "";
         password = "";
@@ -29,8 +28,8 @@ public class User
     
     public User(String name, String pass, String a, String p)
     {
-        Long h = System.currentTimeMillis();//获得当前时间的毫秒数
-	String str = h.toString();//转化为字符串
+        Long h = System.currentTimeMillis();
+	String str = h.toString();
         id = str;
         this.name = name;
         password = pass;

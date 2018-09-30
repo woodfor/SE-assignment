@@ -1,3 +1,4 @@
+import java.util.UUID;
 
 /**
  * Write a description of class Product here.
@@ -8,12 +9,13 @@
 public class Product
 {
     // instance variables - replace the example below with your own
+	private String ID;
     private String name;
-    private String quantity;
-    private String price;
+    private int quantity;
+    private double price;
     private String mkdate;
     private String exprdate;
-    private String discount;
+    private int discount;
     private boolean donate;
     
     
@@ -25,16 +27,17 @@ public class Product
     {
         // initialise instance variables
         name = "";
-        quantity = "";
-        price = "";
+        quantity = 0;
+        price = 0;
         mkdate = "";
         exprdate = "";
-        discount = "100";
+        discount = 0;
         donate = false;
     }
     
-    public Product(String n, String q, String p, String md, String exp, boolean don, String dis)
+    public Product(String n, int q, double p, String md, String exp, boolean don, int dis)
     {
+    	ID=UUID.randomUUID().toString().replace("-", "");
         name = n;
         quantity = q;
         price = p;
@@ -44,17 +47,34 @@ public class Product
         discount = dis;
     }
     
+    public Product(String ID, String n, int q, double p, String md, String exp, boolean don, int dis)
+    {    	
+    	this.ID = ID;
+        name = n;
+        quantity = q;
+        price = p;
+        mkdate = md;
+        exprdate = exp;
+        donate = don;
+        discount = dis;
+    }
+    
+    public String getID()
+    {
+    	return ID;
+    }
+    
     public String getName()
     {
         return name;
     }
     
-    public String getQuantity()
+    public int getQuantity()
     {
         return quantity;
     }
     
-    public String getPrice()
+    public double getPrice()
     {
         return price;
     }
@@ -74,7 +94,7 @@ public class Product
         return donate;
     }
     
-    public String getDiscount()
+    public int getDiscount()
     {
         return discount;
     }
@@ -86,10 +106,17 @@ public class Product
     
     public void setQuantity(String a)
     {
+    	
+        quantity = Integer.parseInt(a);
+    }
+    
+    public void setQuantity(int a)
+    {
+    	
         quantity = a;
     }
     
-    public void setPrice(String a)
+    public void setPrice(double a)
     {
         price = a;
     }
@@ -109,7 +136,7 @@ public class Product
         donate = a;
     }
     
-    public void setDiscount(String a)
+    public void setDiscount(int a)
     {
         discount = a;
     }

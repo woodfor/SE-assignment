@@ -27,7 +27,7 @@ public  class GUI_project  {
 
     //Constructor 
     public GUI_project(){
-        
+    	ctrl = new Controllor();
         login_face();
     }
     private void login_face()
@@ -48,7 +48,7 @@ public  class GUI_project  {
         
         JLabel label_own_reg;
         
-        ctrl = new Controllor();
+        
         JFrame frame = new JFrame("GUI_project");
 
         frame.setSize(1000,1000);
@@ -108,7 +108,7 @@ public  class GUI_project  {
                     {
                         JOptionPane.showMessageDialog(null, "Input something", "Warning",
                             JOptionPane.INFORMATION_MESSAGE);
-                        Account_input.requestFocus();//获取焦点
+                        Account_input.requestFocus();
                         return;
                     }
                     else
@@ -129,7 +129,8 @@ public  class GUI_project  {
                         {
                             JOptionPane.showMessageDialog(null, Account_input.getText().trim() + " Welcome login in", "Hello",
                                 JOptionPane.INFORMATION_MESSAGE);
-
+                            userMenu();
+                            frame.dispose();
                         }
                         else
                         {
@@ -228,6 +229,11 @@ public  class GUI_project  {
         JOptionPane.showMessageDialog(null, a, "Warning",
             JOptionPane.INFORMATION_MESSAGE);
     }
+    private void due(String b, String a)
+    {
+    	JOptionPane.showMessageDialog(null, a, b,
+                JOptionPane.INFORMATION_MESSAGE);
+    }
     
     private void reg_Interface()
     {
@@ -310,7 +316,7 @@ public  class GUI_project  {
                     if (a.isEmpty()||b.isEmpty()||c.isEmpty()||d.isEmpty())    
                     {
                         due("Input something");
-                        Owner_account.requestFocus();//获取焦点          
+                        Owner_account.requestFocus();         
                     }
                     else
                     {
@@ -437,7 +443,7 @@ public  class GUI_project  {
         //Call defined methods
         button1.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent evt) {
-                    create_face("", "12", "10", "01-01-2018", "01-01-2019", "Yes", "100", "Create");
+                    create_face("","", "12", "10", "01-01-2018", "01-01-2019", "Yes", "100", "Create");
                 }
             });
 
@@ -596,6 +602,15 @@ public  class GUI_project  {
                     ArrayList<String> temp = new ArrayList<String>();
                     if(textfield6.getText().trim().isEmpty())
                     {
+                    	 temp = ctrl.findProduct();                                        
+                         for(String item : temp)
+                         {
+                             if(model.contains(item))
+                             {}
+                             else
+                                 model.addElement(item);
+                         }
+                         m_e_list.setModel(model);
                     }
                     else{
                         temp = ctrl.findProduct(textfield6.getText().trim());                                        
@@ -631,6 +646,91 @@ public  class GUI_project  {
 
                     }
                 }
+                
+                if(a.equals("UserSearch"))
+                {
+                	 model.clear();
+                     m_e_list.setModel(model);
+                     ArrayList<String> temp = new ArrayList<String>();
+                     if(textfield6.getText().trim().isEmpty())
+                     {
+                    	 temp = ctrl.userFindProduct();                                        
+                         for(String item : temp)
+                         {
+                             if(model.contains(item))
+                             {}
+                             else
+                                 model.addElement(item);
+                         }
+                         m_e_list.setModel(model);
+                    	 
+                     }
+                     else{
+                         temp = ctrl.userFindProduct(textfield6.getText().trim());                                        
+                         for(String item : temp)
+                         {
+                             if(model.contains(item))
+                             {}
+                             else
+                                 model.addElement(item);
+                         }
+                         m_e_list.setModel(model);
+
+                     }
+                }
+                		
+                if(a.equals("UserOrder"))
+                {
+                	 model.clear();
+                     m_e_list.setModel(model);
+                     ArrayList<String> temp = new ArrayList<String>();
+                     
+                     
+                         temp = ctrl.orderList(textfield6.getText().trim());                                        
+                         for(String item : temp)
+                         {
+                             if(model.contains(item))
+                             {}
+                             else
+                                 model.addElement(item);
+                         }
+                         m_e_list.setModel(model);
+
+                     
+                }
+                if(a.equals("ViewChart"))
+                {
+
+               	 model.clear();
+                    m_e_list.setModel(model);
+                    ArrayList<String> temp = new ArrayList<String>();
+                    if(textfield6.getText().trim().isEmpty())
+                    {
+                   	 temp = ctrl.shopChart("");                                        
+                        for(String item : temp)
+                        {
+                            if(model.contains(item))
+                            {}
+                            else
+                                model.addElement(item);
+                        }
+                        m_e_list.setModel(model);
+                   	 
+                    }
+                    else{
+                        temp = ctrl.shopChart(textfield6.getText().trim());                                        
+                        for(String item : temp)
+                        {
+                            if(model.contains(item))
+                            {}
+                            else
+                                model.addElement(item);
+                        }
+                        m_e_list.setModel(model);
+
+                    }
+                }
+                
                 }
             });
 
@@ -645,6 +745,7 @@ public  class GUI_project  {
                         if(e.getClickCount()==2)
                         {
                              String tmp = m_e_list.getSelectedValue().toString();
+                             
                             if(a.equals("Edit"))
                             {
                                
@@ -671,6 +772,31 @@ public  class GUI_project  {
 
                                                 }
                             }
+                            if(a.equals("UserSearch"))
+                            {
+                            	String[] check = tmp.split("/");
+                            	userQuantitySelection(check[0], check[1], check[2], check[3], check[4], check[5],check[6]);
+                            }
+                            if(a.equals("ViewChart"))
+                            {
+                            	String[] check = tmp.split("/");
+                            	int tmpquant = Integer.parseInt(ctrl.getQuantity(check[5]))+Integer.parseInt(check[1]);
+                            	String tmpid = check[5]+"/"+tmpquant;
+                            	//userQuantitySelection(check[0], Integer.toString(tmpquant), check[2], check[3], check[4] ,"",check[5]);
+                            	edit_Quantity(2, tmpid);
+                            }
+                            
+                            if(a.equals("UserOrder"))
+                            {
+                            	int result = JOptionPane.showConfirmDialog(null, "Purchase?",
+                                        "Purchase", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE); 
+                                if(result == JOptionPane.OK_OPTION)
+                                {
+                                    ctrl.purchase(tmp);
+
+                                }
+                            }
+                            
                             model.clear();
                             m_e_list.setModel(model);
                         }
@@ -682,10 +808,29 @@ public  class GUI_project  {
             });
 
         //adding components to contentPane panel
+        JButton createOrder;
+        createOrder = new JButton();
+        createOrder.setBounds(30,350,140,35);
+        createOrder.setBackground(new Color(214,217,223));
+        createOrder.setForeground(new Color(0,0,0));
+        createOrder.setEnabled(true);
+        createOrder.setFont(new Font("sansserif",0,12));
+        createOrder.setText("Create Order");
+        createOrder.setVisible(false);
+        createOrder.addMouseListener(new MouseAdapter() {
+                public void mouseClicked(MouseEvent evt) {
+                    ctrl.addPListToOrder();
+                    due("Congratulations","Order added");
+                    frame.dispose();
+                }
+            });
+        if(a.equals("ViewChart"))
+        	createOrder.setVisible(true);
         panel_Edit.add(label6);
         panel_Edit.add(m_e_list);
         panel_Edit.add(textfield6);
         panel_Edit.add(back);
+        panel_Edit.add(createOrder);
         contentPane.add(panel_Edit);
         frame.add(contentPane);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -699,12 +844,12 @@ public  class GUI_project  {
     {    
 
         String[] check = a.split("/");                      
-        create_face(check[0],check[1],check[2],check[3],check[4],check[5],check[6],"Edit");
+        create_face(check[7],check[0],check[1],check[2],check[3],check[4],check[5],check[6],"Edit");
     }
     
     
 
-    public void edit_Quantity(int a,String b)
+    public void edit_Quantity(int a,String ID)
     {
         JFrame frame = new JFrame("Edit Quantity");
         JLabel Quantity;
@@ -773,7 +918,7 @@ public  class GUI_project  {
         panel1.setVisible(true);
 
         textfield1 = new JTextField();
-        textfield1.setBounds(180,75,90,35);
+        textfield1.setBounds(180,75,100,35);
         textfield1.setBackground(new Color(255,255,255));
         textfield1.setForeground(new Color(0,0,0));
         textfield1.setEnabled(true);
@@ -781,13 +926,28 @@ public  class GUI_project  {
         textfield1.setText("");
         textfield1.setVisible(true);
 
+        JLabel availQuant= new JLabel();
+    	availQuant.setBounds(100,50,140,35);
+    	availQuant.setVisible(false);
+    	availQuant.setBackground(new Color(255,255,255));
+    	availQuant.setForeground(new Color(0,0,0));
+    	availQuant.setEnabled(true);
+    	availQuant.setFont(new Font("sansserif",0,12));
+    	if(a==2)
+    	{
+    		String[] check =ID.split("/");
+    		availQuant.setText("Total available: "+check[1]);
+    		availQuant.setVisible(true);
+    	}
+    	panel1.add(availQuant);
+        
         button1.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent evt) {
                     if(a==1)
                     {
                         if(ctrl.isInteger(textfield1.getText().trim()))
                         {
-                            ctrl.EditProduct(b,textfield1.getText().trim());
+                            ctrl.EditProduct(ID,textfield1.getText().trim());
                             frame.dispose();
                         }
                         else
@@ -795,6 +955,45 @@ public  class GUI_project  {
                             due("Input number please");
 
                         }
+                    }
+                    if(a==2)
+                    {
+                    	                   	                    	
+                    	String[] check =ID.split("/");
+                    	
+                    	 if(ctrl.isInteger(textfield1.getText().trim()))
+                         {
+                    		 if(Integer.parseInt(textfield1.getText().trim())==0)
+                    		 {
+                    			 int result = JOptionPane.showConfirmDialog(null, "Remove product?",
+                                         "Remove?", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE); 
+                                 if(result == JOptionPane.OK_OPTION)
+                                 {
+                                     ctrl.removeTmpproduct(check[0]);
+                                     frame.dispose();
+
+                                 }
+                    		 }
+                    		 else
+                    		 if(Integer.parseInt(textfield1.getText().trim())<=Integer.parseInt(check[1]))
+                    		 {
+                    			 ctrl.editTmpProduct(check[0],textfield1.getText().trim());
+                    			 ctrl.EditProduct(check[0], (Integer.parseInt(check[1])-Integer.parseInt(textfield1.getText().trim()))+"");
+                    			 availQuant.setVisible(false);
+                    			 due("Congratulations","Quantity changed");
+                    			 frame.dispose();
+                    		 }
+                    		 
+                    		 else
+                    			 due("More than available");
+                             
+                             
+                         }
+                         else
+                         {
+                             due("Input number please");
+
+                         }
                     }
 
                 }
@@ -817,7 +1016,7 @@ public  class GUI_project  {
 
     }
 
-    private void create_face(String n, String q, String p,String md,String ed,String don,String discount,String b)
+    private void create_face(String ID, String n, String q, String p,String md,String ed,String don,String discount,String b)
     {
         JCheckBox m_d_Checkbox;
         JTextField m_c_pp;
@@ -1036,7 +1235,7 @@ public  class GUI_project  {
                             {
                                 if(ctrl.isInteger(m_c_dis.getText().trim()))
                                 {
-                                    if(ctrl.isInteger(m_c_pp.getText().trim()))
+                                    if(ctrl.isDouble(m_c_pp.getText().trim()))
                                     {
                                         String checkbox;
                                         if(m_d_Checkbox.isSelected())
@@ -1049,20 +1248,20 @@ public  class GUI_project  {
                                         }
                                         String a = m_c_pn.getText().trim()+"/"+m_c_pq.getText().trim()+
                                             "/"+ m_c_pp.getText().trim() + "/" + m_c_mdate.getText().trim()+"/"+m_c_expdate.getText().trim()+"/"+checkbox+"/"+
-                                            m_c_dis.getText().trim()+"%";
-
+                                            m_c_dis.getText().trim();
+                                        String tmp = ctrl.containProduct(a);
                                         if(b.equals("Create"))
                                         {
 
                                             
-                                            if(ctrl.containProduct(a))
+                                            if(!(tmp==null))
                                             {
 
                                                 int result = JOptionPane.showConfirmDialog(null, "Item contained, Edit quantity?",
                                                         "Edit?", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE); 
                                                 if(result == JOptionPane.OK_OPTION)
                                                 {
-                                                    edit_Quantity(1,a);
+                                                    edit_Quantity(1,tmp);
 
                                                 }
 
@@ -1075,7 +1274,7 @@ public  class GUI_project  {
                                         }
                                         else
                                         {
-                                            ctrl.EditProduct(n,q,p,md,ed,don,discount,a);
+                                            ctrl.EditProduct(tmp,n,q,p,md,ed,don,discount,a);
                                             due(a);
                                             frame.dispose();
 
@@ -1197,8 +1396,9 @@ public  class GUI_project  {
             public void mousePressed(MouseEvent evt)
             {
                 
-                 frame.dispose();
+                 
                  login_face();
+                 frame.dispose();
                 
             }
         });
@@ -1221,12 +1421,462 @@ public  class GUI_project  {
 
         //adding panel to JFrame and seting of window position and close operation
         frame.add(contentPane);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.pack();
         frame.setVisible(true);
     }
+    
+    public void userMenu()
+    {
+    	 JButton button1;
+    	 JButton button2;
+    	 JButton button4;
+    	 JButton button5;
+    	JButton button3;
+    	JLabel label1;
+    	 JPanel panel1;
+    	 
+    	 JFrame frame = new JFrame("User Menu");
+    	 frame.setSize(600, 600);
+    	 JPanel contentPane = new JPanel(null);
+ 		contentPane.setPreferredSize(new Dimension(500,400));
+ 		contentPane.setBackground(new Color(192,192,192));
+ 		button1 = new JButton();
+		button1.setBounds(13,69,90,35);
+		button1.setBackground(new Color(214,217,223));
+		button1.setForeground(new Color(0,0,0));
+		button1.setEnabled(true);
+		button1.setFont(new Font("sansserif",0,12));
+		button1.setText("Search");
+		button1.setVisible(true);
+		//Set methods for mouse events
+		//Call defined methods
+		button1.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent evt) {
+				edit_face("UserSearch");
+			}
+		});
+		
+		button4 = new JButton();
+		button4.setBounds(13,140,90,35);
+		button4.setBackground(new Color(214,217,223));
+		button4.setForeground(new Color(0,0,0));
+		button4.setEnabled(true);
+		button4.setFont(new Font("sansserif",0,12));
+		button4.setText("View chart");
+		button4.setVisible(true);
+		//Set methods for mouse events
+		//Call defined methods
+		button4.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent evt) {
+				edit_face("ViewChart");
+			}
+		});
+		
+		button5 = new JButton();
+		button5.setBounds(126,140,90,35);
+		button5.setBackground(new Color(214,217,223));
+		button5.setForeground(new Color(0,0,0));
+		button5.setEnabled(true);
+		button5.setFont(new Font("sansserif",0,12));
+		button5.setText("Edit Profile");
+		button5.setVisible(true);
+		//Set methods for mouse events
+		//Call defined methods
+		button5.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent evt) {
+				//edit_face("EditProfile");
+			}
+		});
 
+
+		button2 = new JButton();
+		button2.setBounds(126,69,90,35);
+		button2.setBackground(new Color(214,217,223));
+		button2.setForeground(new Color(0,0,0));
+		button2.setEnabled(true);
+		button2.setFont(new Font("sansserif",0,12));
+		button2.setText("View order");
+		button2.setVisible(true);
+		//Set methods for mouse events
+		//Call defined methods
+		button2.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent evt) {
+				edit_face("UserOrder");
+			}
+		});
+
+
+		button3 = new JButton();
+		button3.setBounds(237,69,90,35);
+		button3.setBackground(new Color(214,217,223));
+		button3.setForeground(new Color(0,0,0));
+		button3.setEnabled(true);
+		button3.setFont(new Font("sansserif",0,12));
+		button3.setText("logout");
+		button3.setVisible(true);
+		//Set methods for mouse events
+		//Call defined methods
+		button3.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent evt) {
+				frame.dispose();
+				login_face();
+			}
+		});
+
+		
+
+		label1 = new JLabel();
+		label1.setBounds(16,8,90,35);
+		label1.setBackground(new Color(214,217,223));
+		label1.setForeground(new Color(0,0,0));
+		label1.setEnabled(true);
+		label1.setFont(new Font("sansserif",0,12));
+		label1.setText("User");
+		label1.setVisible(true);
+
+		panel1 = new JPanel(null);
+		panel1.setBorder(BorderFactory.createEtchedBorder(1));
+		panel1.setBounds(74,93,400,400);
+		panel1.setBackground(new Color(214,217,223));
+		panel1.setForeground(new Color(0,0,0));
+		panel1.setEnabled(true);
+		panel1.setFont(new Font("sansserif",0,12));
+		panel1.setVisible(true);
+
+		//adding components to contentPane panel
+		panel1.add(button1);
+		panel1.add(button2);
+		panel1.add(button3);
+		panel1.add(button4);
+		panel1.add(button5);
+		panel1.add(label1);
+		contentPane.add(panel1);
+
+		//adding panel to JFrame and seting of window position and close operation
+		frame.add(contentPane);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setLocationRelativeTo(null);
+		frame.pack();
+		frame.setVisible(true);
+
+    }
+
+    public void userQuantitySelection(String n, String q, String p,String made, String expr, String disc,String ID)
+    {
+    	 JButton Cancel;
+    	 JLabel Dis;
+    	 JLabel ExprD;
+    	 JLabel MD;
+    	 JLabel Name;
+    	 JLabel Q;
+    	 JTextField QS;
+    	 JLabel label1;
+    	 JLabel label11;
+    	 JLabel label2;
+    	 JLabel label3;
+    	 JLabel label4;
+    	 JLabel label5;
+    	 JLabel label13;
+    	 JLabel price;
+    	 JPanel panel1;
+    	 JButton purchase;
+    	 JLabel total;
+    	 JFrame frame = new JFrame("Select Quantity");
+    	 frame.setSize(600, 600);
+    	 JPanel contentPane = new JPanel(null);
+ 		contentPane.setPreferredSize(new Dimension(600,600));
+ 		contentPane.setBackground(new Color(192,192,192));
+
+ 		Cancel = new JButton();
+		Cancel.setBounds(171,338,90,35);
+		Cancel.setBackground(new Color(214,217,223));
+		Cancel.setForeground(new Color(0,0,0));
+		Cancel.setEnabled(true);
+		Cancel.setFont(new Font("sansserif",0,12));
+		Cancel.setText("Cancel");
+		Cancel.setVisible(true);
+
+		
+		Dis = new JLabel();
+		Dis.setBounds(191,180,90,35);
+		Dis.setBackground(new Color(214,217,223));
+		Dis.setForeground(new Color(0,0,0));
+		Dis.setEnabled(true);
+		Dis.setFont(new Font("sansserif",0,12));
+		Dis.setText(disc);
+		Dis.setVisible(true);
+
+		ExprD = new JLabel();
+		ExprD.setBounds(191,140,90,35);
+		ExprD.setBackground(new Color(214,217,223));
+		ExprD.setForeground(new Color(0,0,0));
+		ExprD.setEnabled(true);
+		ExprD.setFont(new Font("sansserif",0,12));
+		ExprD.setText(expr);
+		ExprD.setVisible(true);
+
+		MD = new JLabel();
+		MD.setBounds(191,100,90,35);
+		MD.setBackground(new Color(214,217,223));
+		MD.setForeground(new Color(0,0,0));
+		MD.setEnabled(true);
+		MD.setFont(new Font("sansserif",0,12));
+		MD.setText(made);
+		MD.setVisible(true);
+
+		Name = new JLabel();
+		Name.setBounds(191,20,90,35);
+		Name.setBackground(new Color(214,217,223));
+		Name.setForeground(new Color(0,0,0));
+		Name.setEnabled(true);
+		Name.setFont(new Font("sansserif",0,12));
+		Name.setText(n);
+		Name.setVisible(true);
+
+		Q = new JLabel();
+		Q.setBounds(191,60,90,35);
+		Q.setBackground(new Color(214,217,223));
+		Q.setForeground(new Color(0,0,0));
+		Q.setEnabled(true);
+		Q.setFont(new Font("sansserif",0,12));
+		Q.setText(q);
+		Q.setVisible(true);
+
+		QS = new JTextField();
+		QS.setBounds(168,254,90,35);
+		QS.setBackground(new Color(255,255,255));
+		QS.setForeground(new Color(0,0,0));
+		QS.setEnabled(true);
+		QS.setFont(new Font("sansserif",0,12));
+		QS.setText("");
+		QS.setVisible(true);
+
+		label1 = new JLabel();
+		label1.setBounds(62,20,90,35);
+		label1.setBackground(new Color(214,217,223));
+		label1.setForeground(new Color(0,0,0));
+		label1.setEnabled(true);
+		label1.setFont(new Font("sansserif",0,12));
+		label1.setText("Product Name:");
+		label1.setVisible(true);
+
+		label11 = new JLabel();
+		label11.setBounds(40,254,107,34);
+		label11.setBackground(new Color(214,217,223));
+		label11.setForeground(new Color(0,0,0));
+		label11.setEnabled(true);
+		label11.setFont(new Font("sansserif",0,12));
+		label11.setText("Quantity Selection");
+		label11.setVisible(true);
+
+		label13 = new JLabel();
+		label13.setBounds(63,214,90,35);
+		label13.setBackground(new Color(214,217,223));
+		label13.setForeground(new Color(0,0,0));
+		label13.setEnabled(true);
+		label13.setFont(new Font("sansserif",0,12));
+		label13.setText("Price");
+		label13.setVisible(true);
+
+		label2 = new JLabel();
+		label2.setBounds(62,59,109,33);
+		label2.setBackground(new Color(214,217,223));
+		label2.setForeground(new Color(0,0,0));
+		label2.setEnabled(true);
+		label2.setFont(new Font("sansserif",0,12));
+		label2.setText("Quantity available:");
+		label2.setVisible(true);
+
+		label3 = new JLabel();
+		label3.setBounds(62,100,90,35);
+		label3.setBackground(new Color(214,217,223));
+		label3.setForeground(new Color(0,0,0));
+		label3.setEnabled(true);
+		label3.setFont(new Font("sansserif",0,12));
+		label3.setText("Make Date:");
+		label3.setVisible(true);
+
+		label4 = new JLabel();
+		label4.setBounds(62,140,90,35);
+		label4.setBackground(new Color(214,217,223));
+		label4.setForeground(new Color(0,0,0));
+		label4.setEnabled(true);
+		label4.setFont(new Font("sansserif",0,12));
+		label4.setText("Expr Date:");
+		label4.setVisible(true);
+
+		label5 = new JLabel();
+		label5.setBounds(62,180,90,35);
+		label5.setBackground(new Color(214,217,223));
+		label5.setForeground(new Color(0,0,0));
+		label5.setEnabled(true);
+		label5.setFont(new Font("sansserif",0,12));
+		label5.setText("Discount:");
+		label5.setVisible(true);
+
+		panel1 = new JPanel(null);
+		panel1.setBorder(BorderFactory.createEtchedBorder(1));
+		panel1.setBounds(95,27,297,409);
+		panel1.setBackground(new Color(214,217,223));
+		panel1.setForeground(new Color(0,0,0));
+		panel1.setEnabled(true);
+		panel1.setFont(new Font("sansserif",0,12));
+		panel1.setVisible(true);
+
+		price = new JLabel();
+		price.setBounds(191,215,90,35);
+		price.setBackground(new Color(214,217,223));
+		price.setForeground(new Color(0,0,0));
+		price.setEnabled(true);
+		price.setFont(new Font("sansserif",0,12));
+		price.setText(p);
+		price.setVisible(true);
+
+		purchase = new JButton();
+		purchase.setBounds(16,338,120,35);
+		purchase.setBackground(new Color(214,217,223));
+		purchase.setForeground(new Color(0,0,0));
+		purchase.setEnabled(true);
+		purchase.setFont(new Font("sansserif",0,12));
+		purchase.setText("Add to chart");
+		purchase.setVisible(true);	//create order
+		
+		total = new JLabel();
+		total.setBounds(108,291,150,35);
+		total.setBackground(new Color(214,217,223));
+		total.setForeground(new Color(0,0,0));
+		total.setEnabled(true);
+		total.setFont(new Font("sansserif",0,12));
+		total.setText("Total:");
+		total.setVisible(true);
+		
+		purchase.addMouseListener(new MouseAdapter() {
+
+			public void mousePressed(MouseEvent evt)
+			{
+				int result = JOptionPane.showConfirmDialog(null, "Want to buy " + QS.getText().trim() +" "+ n + " (s)",
+                        "Add to chart", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE); 
+                if(result == JOptionPane.OK_OPTION)
+                {
+                	 String a = n+"/"+q+"/"+p+"/"+made+"/"+expr+"/"+"No"+"/"+disc+"/"+ID;
+                	 int tmpa=0;
+                	 int tmpb=0;
+                	 String quant="";
+                	 boolean tmpflag=false;
+                	 try
+                	 {
+                		 
+                		  tmpa = Integer.parseInt(q);
+                		  tmpb = Integer.parseInt(QS.getText().trim());
+                		  quant = Integer.toString(tmpa-tmpb);
+                		  tmpflag= true;               		                 	               		 
+                		
+                	 }
+     				catch(Exception e)
+     				{
+     					tmpflag = false;
+     					due("Input Number");
+     				}
+                	 if(tmpflag)
+                	 {
+                	 if((tmpa-tmpb) >=0 )
+            		 { 
+            			 ctrl.addProductToOrder(a, QS.getText().trim());
+            			 ctrl.EditProduct(ID, quant);
+            			 due("Congratulations","Product added");
+            			 frame.dispose();
+            		 }
+            		 else
+            			 due("Out of Maxium");
+                	 }
+     				    				
+
+                }
+				
+			}
+		});
+		
+		Cancel.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent evt){
+				frame.dispose();
+			}
+		});
+		
+		QS.addCaretListener(new CaretListener() {
+            public void caretUpdate(CaretEvent ce)
+            {
+            	total.setText("total:");
+				try
+            	{
+					String tmp = disc.replace('%', ' ');
+					
+            	if(Integer.parseInt(QS.getText().trim()) <= Integer.parseInt(q))
+            	total.setText("total: " + Integer.parseInt(QS.getText().trim())
+            	*0.01
+            	*Double.parseDouble((p.trim())) * Integer.parseInt(tmp.trim())
+            	+ " AUD");
+            	else
+            		total.setText("Out of Maxium");
+            	}
+            	catch(Exception e)
+            	{
+            		
+            	}
+				
+			}
+		});
+
+		
+		
+
+		//adding components to contentPane panel
+		panel1.add(Cancel);
+		panel1.add(Dis);
+		panel1.add(ExprD);
+		panel1.add(MD);
+		panel1.add(Name);
+		panel1.add(Q);
+		panel1.add(QS);
+		panel1.add(label1);
+		panel1.add(label11);
+		panel1.add(label13);
+		panel1.add(label2);
+		panel1.add(label3);
+		panel1.add(label4);
+		panel1.add(label5);
+		contentPane.add(panel1);
+		panel1.add(price);
+		panel1.add(purchase);
+		panel1.add(total);
+
+ 		//adding components to contentPane panel
+ 		panel1.add(Cancel);
+ 		panel1.add(Dis);
+ 		panel1.add(ExprD);
+ 		panel1.add(MD);
+ 		panel1.add(Name);
+ 		panel1.add(Q);
+ 		panel1.add(QS);
+ 		panel1.add(label1);
+ 		panel1.add(label11);
+ 		panel1.add(label2);
+ 		panel1.add(label3);
+ 		panel1.add(label4);
+ 		panel1.add(label5);
+ 		contentPane.add(panel1);
+ 		panel1.add(purchase);
+ 		panel1.add(total);
+
+ 		//adding panel to JFrame and seting of window position and close operation
+ 		frame.add(contentPane);
+ 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+ 		frame.setLocationRelativeTo(null);
+ 		frame.pack();
+ 		frame.setVisible(true);
+    }
+    
     public void generateMenu(){
         menuBar = new JMenuBar();
 
