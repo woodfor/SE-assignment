@@ -2,12 +2,18 @@
 comment0.target=GUI_project
 comment1.params=
 comment1.target=GUI_project()
+<<<<<<< HEAD
 comment10.params=
 comment10.target=void\ owner_manage_interface()
+=======
+comment10.params=evt
+comment10.target=void\ mouseClicked(java.awt.event.MouseEvent)
+>>>>>>> 520ba2697044072a9ce2b44688fcdfc95c67d63f
 comment11.params=evt
 comment11.target=void\ mouseClicked(java.awt.event.MouseEvent)
 comment12.params=evt
 comment12.target=void\ mouseClicked(java.awt.event.MouseEvent)
+<<<<<<< HEAD
 comment13.params=evt
 comment13.target=void\ mouseClicked(java.awt.event.MouseEvent)
 comment14.params=evt
@@ -44,24 +50,61 @@ comment28.params=evt
 comment28.target=void\ mousePressed(java.awt.event.MouseEvent)
 comment29.params=evt
 comment29.target=void\ mousePressed(java.awt.event.MouseEvent)
+=======
+comment13.params=a
+comment13.target=void\ edit_face(java.lang.String)
+comment14.params=evt
+comment14.target=void\ mouseClicked(java.awt.event.MouseEvent)
+comment15.params=ce
+comment15.target=void\ caretUpdate(javax.swing.event.CaretEvent)
+comment16.params=e
+comment16.target=void\ mouseClicked(java.awt.event.MouseEvent)
+comment17.params=a
+comment17.target=void\ doubleClick(java.lang.String)
+comment18.params=a\ b
+comment18.target=void\ edit_Quantity(int,\ java.lang.String)
+comment19.params=evt
+comment19.target=void\ mouseClicked(java.awt.event.MouseEvent)
+comment2.params=evt
+comment2.target=void\ mouseClicked(java.awt.event.MouseEvent)
+comment20.params=evt
+comment20.target=void\ mouseClicked(java.awt.event.MouseEvent)
+comment21.params=n\ q\ p\ md\ ed\ don\ discount\ b
+comment21.target=void\ create_face(java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String)
+comment22.params=evt
+comment22.target=void\ mouseClicked(java.awt.event.MouseEvent)
+comment23.params=evt
+comment23.target=void\ mouseClicked(java.awt.event.MouseEvent)
+comment24.params=evt
+comment24.target=void\ Remove(java.awt.event.MouseEvent)
+comment25.params=
+comment25.target=void\ generateMenu()
+comment26.params=args
+comment26.target=void\ main(java.lang.String[])
+comment27.params=
+comment27.target=void\ run()
+>>>>>>> 520ba2697044072a9ce2b44688fcdfc95c67d63f
 comment3.params=evt
 comment3.target=void\ mouseClicked(java.awt.event.MouseEvent)
-comment30.params=
-comment30.target=void\ generateMenu()
-comment31.params=args
-comment31.target=void\ main(java.lang.String[])
-comment32.params=
-comment32.target=void\ run()
 comment4.params=evt
 comment4.target=void\ mouseClicked(java.awt.event.MouseEvent)
 comment5.params=evt
 comment5.target=void\ mouseClicked(java.awt.event.MouseEvent)
+<<<<<<< HEAD
 comment6.params=a
 comment6.target=void\ due(java.lang.String)
 comment7.params=
 comment7.target=void\ reg_Interface()
 comment8.params=evt
 comment8.target=void\ mouseClicked(java.awt.event.MouseEvent)
+=======
+comment6.params=evt
+comment6.target=void\ mouseClicked(java.awt.event.MouseEvent)
+comment7.params=a
+comment7.target=void\ due(java.lang.String)
+comment8.params=a
+comment8.target=void\ owner_manage_interface(javax.swing.JPanel)
+>>>>>>> 520ba2697044072a9ce2b44688fcdfc95c67d63f
 comment9.params=evt
 comment9.target=void\ mouseClicked(java.awt.event.MouseEvent)
-numComments=33
+numComments=28

@@ -5,6 +5,7 @@ comment1.params=
 comment1.target=Controllor()
 comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ Contorllor\r\n
 comment10.params=a
+<<<<<<< HEAD
 comment10.target=void\ removeproduct(java.lang.String)
 comment11.params=a
 comment11.target=java.util.ArrayList\ findProduct(java.lang.String)
@@ -18,6 +19,19 @@ comment15.params=a
 comment15.target=void\ removeAC(java.lang.String)
 comment16.params=a
 comment16.target=java.util.ArrayList\ containAccount(java.lang.String)
+=======
+comment10.target=Product\ findExact(java.lang.String)
+comment11.params=a
+comment11.target=void\ removeproduct(java.lang.String)
+comment12.params=a
+comment12.target=java.util.ArrayList\ findProduct(java.lang.String)
+comment13.params=a
+comment13.target=boolean\ containProduct(java.lang.String)
+comment14.params=a\ b
+comment14.target=void\ EditProduct(java.lang.String,\ java.lang.String)
+comment15.params=n\ q\ p\ md\ ed\ don\ discount\ change
+comment15.target=void\ EditProduct(java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String)
+>>>>>>> 520ba2697044072a9ce2b44688fcdfc95c67d63f
 comment2.params=a
 comment2.target=boolean\ addCustomerList(java.lang.String)
 comment3.params=a
@@ -31,7 +45,14 @@ comment6.target=boolean\ compareDate(java.lang.String,\ java.lang.String)
 comment7.params=str
 comment7.target=boolean\ isKG(java.lang.String)
 comment8.params=str
+<<<<<<< HEAD
 comment8.target=boolean\ isInteger(java.lang.String)
 comment9.params=a
 comment9.target=Product\ findExact(java.lang.String)
 numComments=17
+=======
+comment8.target=boolean\ isKG(java.lang.String)
+comment9.params=str
+comment9.target=boolean\ isInteger(java.lang.String)
+numComments=16
+>>>>>>> 520ba2697044072a9ce2b44688fcdfc95c67d63f

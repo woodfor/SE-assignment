@@ -22,6 +22,7 @@ public class ProductList
 
     }
 
+<<<<<<< HEAD
     public void addList(String a)
     {
          boolean tmpb;
@@ -34,6 +35,11 @@ public class ProductList
         
         Product tmp = new Product(check[0],Integer.parseInt(check[1]),Double.parseDouble(check[2]),check[3],check[4],tmpb,Integer.parseInt(check[6]));
         arraylist.add(tmp);
+=======
+    public void addList(Product a)
+    {
+        arraylist.add(a);
+>>>>>>> 520ba2697044072a9ce2b44688fcdfc95c67d63f
     }
 
     public ArrayList<Product> getList()
@@ -55,6 +61,7 @@ public class ProductList
             return false;
     }
 
+<<<<<<< HEAD
    
 
     public ArrayList<Product> search(String name)
@@ -106,6 +113,42 @@ public class ProductList
                     {
                     results.add(arraylist.get(i));
                     }
+=======
+    /*public void replace(Product a,Product b)
+    {
+    if(arraylist.contains(a))
+    {
+    int position=arraylist.indexOf(a);//oldId对应的index
+    arraylist.set(position,b); 
+    }
+    } */
+
+    public ArrayList<String> search(String name)
+    {
+        ArrayList<String> results = new ArrayList<String>();
+        try
+        { Pattern pattern = Pattern.compile(name,Pattern.CASE_INSENSITIVE);
+            for(int i=0; i < arraylist.size(); i++)
+            {
+                String[] check;
+                check = arraylist.get(i).getName().split("/");
+                Matcher matcher = pattern.matcher(check[0]);
+                if(matcher.find())
+                {
+                    String tmp;                    
+                    if (arraylist.get(i).getDon()==true)
+                        tmp="Yes";
+                    else
+                        tmp="No";
+
+                    results.add(arraylist.get(i).getName()+"/"+
+                                arraylist.get(i).getQuantity()+"/"+
+                                arraylist.get(i).getPrice()+"/"+
+                                arraylist.get(i).getmkdate()+"/"+
+                                arraylist.get(i).getExprdate()+"/"+
+                                tmp + "/" +
+                                arraylist.get(i).getDiscount());
+>>>>>>> 520ba2697044072a9ce2b44688fcdfc95c67d63f
                 }
             }
         }
@@ -115,6 +158,7 @@ public class ProductList
 
         return results;
     }
+<<<<<<< HEAD
     
     public ArrayList<Product> userSearch()
     {
@@ -136,5 +180,8 @@ public class ProductList
               
         return results;
     }
+=======
+
+>>>>>>> 520ba2697044072a9ce2b44688fcdfc95c67d63f
 
 }

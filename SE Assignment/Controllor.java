@@ -18,10 +18,16 @@ import java.util.Iterator;
 public class Controllor
 {
 
+<<<<<<< HEAD
 	ArrayList<Product> tmplist;
     private Account customerList;
     private ProductList productList;
     private Customer customer;
+=======
+    private Account owner;
+    private Account customer;
+    private ProductList productList;
+>>>>>>> 520ba2697044072a9ce2b44688fcdfc95c67d63f
 
     /**
      * Constructor for objects of class Contorllor
@@ -30,8 +36,13 @@ public class Controllor
     {
         // initialise instance variables
 
+<<<<<<< HEAD
     	tmplist = new ArrayList<Product>();
         customerList=new Account();
+=======
+        owner=new Account();
+        customer=new Account();
+>>>>>>> 520ba2697044072a9ce2b44688fcdfc95c67d63f
         productList = new ProductList();
 
         File fileCust = new File("UserList.txt");
@@ -149,9 +160,22 @@ public class Controllor
 
     public void createproduct(String a)
     {
+<<<<<<< HEAD
        
         productList.addList(a);
         
+=======
+        boolean tmpb;
+        String check[];
+        check = a.trim().split("/");
+        if(check[5].equals("Yes"))
+            tmpb = true;
+        else
+            tmpb = false;
+        Product tmp = new Product(check[0],check[1],check[2],check[3],check[4],tmpb,check[6]);
+        productList.addList(tmp);
+
+>>>>>>> 520ba2697044072a9ce2b44688fcdfc95c67d63f
     }
 
     public boolean isValidDate(String str) {
@@ -233,6 +257,7 @@ public class Controllor
         else 
             return false;
     }
+<<<<<<< HEAD
     
     public boolean isDouble(String str) 
     {
@@ -262,10 +287,33 @@ public class Controllor
     	for(Product i : tmplist)
         {
             if(i.getID().equals(a)) 
+=======
+
+    public Product findExact(String a)
+    {
+        boolean tmpb;
+        String check[];
+        check = a.trim().split("/");
+        if(check[5].equals("Yes"))
+            tmpb = true;
+        else
+            tmpb = false;
+
+        for(Product i : productList.getList())
+        {
+            if(i.getName().equalsIgnoreCase((check[0])) &&
+            i.getQuantity().equals(check[1]) &&
+            i.getPrice().equals(check[2]) &&
+            i.getmkdate().equals(check[3]) &&
+            i.getExprdate().equals(check[4]) &&
+            i.getDon()==tmpb && 
+            i.getDiscount().equals(check[6]))
+>>>>>>> 520ba2697044072a9ce2b44688fcdfc95c67d63f
                 return i;
         }
         return null;
     }
+<<<<<<< HEAD
     
     public Order findExactOrder(String a)
     {
@@ -521,6 +569,45 @@ public class Controllor
     	        }
     	}
     	return results;
+=======
+
+    public void removeproduct(String a)
+    {
+        productList.remove(findExact(a));
+
+    }
+
+    public ArrayList findProduct(String a)
+    {
+        return productList.search(a);
+    }
+
+    public boolean containProduct(String a)
+    {
+        if(findExact(a)==null)
+            return false;
+        else
+            return true;
+    }
+
+    public void EditProduct(String a, String b)
+    {
+        findExact(a).setQuantity(b);
+    } 
+
+    public void EditProduct(String n, String q, String p,String md,String ed,String don,String discount,String change)
+    {
+        boolean tmpb;
+        if(don.equals("Yes"))
+            tmpb=true;
+        else
+            tmpb=false;
+        String a = n+"/"+q+"/"+p+"/"+md+"/"+ed+"/"+don+"/"+discount;
+
+        productList.remove(findExact(a)); 
+        createproduct(change);
+
+>>>>>>> 520ba2697044072a9ce2b44688fcdfc95c67d63f
     }
     
     public void addPListToOrder()
